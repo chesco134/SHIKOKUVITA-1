@@ -36,6 +36,14 @@ public class Desecho {
 		this.Cantidad = Cantidad;
 	}
 
+	public boolean isTipoMasa() {
+		return tipoMasa;
+	}
+
+	public void setTipoMasa(boolean tipoMasa) {
+		this.tipoMasa = tipoMasa;
+	}
+
  @Override
     public boolean equals(Object o) {
 
