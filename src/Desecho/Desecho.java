@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package Desecho;
-
+import org.apache.commons.lang3.builder.*;
 /**
  *
  * @author tetra
@@ -35,6 +35,28 @@ public class Desecho {
 	public void setCantidad(int Cantidad) {
 		this.Cantidad = Cantidad;
 	}
+
+ @Override
+    public boolean equals(Object o) {
+
+        if (o == this) return true;
+        if (!(o instanceof Desecho)) {
+            return false;
+        }
+
+        Desecho dese = (Desecho) o;
+
+        return new EqualsBuilder()
+                .append(categoria, dese.categoria)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(categoria)
+                .toHashCode();
+    }
 
 	
 	
