@@ -6,10 +6,7 @@ import Usuarios.ManejadorArchivoUsuarios;
 import java.awt.Color;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import javafx.scene.layout.VBox;
 import javax.swing.ImageIcon;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import Categorias.*;
 import javax.swing.JOptionPane;
 
