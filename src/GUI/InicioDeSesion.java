@@ -9,6 +9,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import javax.swing.ImageIcon;
 import Categorias.*;
+import java.awt.Event;
+import java.awt.event.KeyEvent;
+import javax.swing.InputMap;
+import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -50,6 +55,12 @@ public class InicioDeSesion extends javax.swing.JFrame {
             jTextField1.setText(fileManager.getUsuarioActual().getNombreUsuario());
 //            jPasswordField1.setText(fileManager.getUsuarioActual().getPass());
         }
+//        
+        InputMap map = jTextField1.getInputMap(jTextField1.WHEN_FOCUSED);
+        map.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+        InputMap map2 = jPasswordField1.getInputMap(jPasswordField1.WHEN_FOCUSED);
+        map2.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+//
     }
     
     private Usuario checkUser(String userName, String pass){
@@ -82,6 +93,7 @@ public class InicioDeSesion extends javax.swing.JFrame {
         jPasswordField1 = new javax.swing.JPasswordField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        Salirboton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Iniciar Sesión");
@@ -109,9 +121,9 @@ public class InicioDeSesion extends javax.swing.JFrame {
                 jTextField1MouseClicked(evt);
             }
         });
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField1KeyTyped(evt);
             }
         });
 
@@ -136,10 +148,22 @@ public class InicioDeSesion extends javax.swing.JFrame {
                 jPasswordField1ActionPerformed(evt);
             }
         });
+        jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jPasswordField1KeyTyped(evt);
+            }
+        });
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imágenes/logo.PNG"))); // NOI18N
 
         jLabel6.setText("¿Aún no tienes una? ");
+
+        Salirboton.setText("Salir");
+        Salirboton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SalirbotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -168,7 +192,9 @@ public class InicioDeSesion extends javax.swing.JFrame {
                                 .addComponent(jRadioButton1))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 339, Short.MAX_VALUE)
+                                .addGap(121, 121, 121)
+                                .addComponent(Salirboton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 165, Short.MAX_VALUE)
                                 .addComponent(jButton2)))
                         .addGap(25, 25, 25))))
         );
@@ -197,7 +223,8 @@ public class InicioDeSesion extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(Salirboton))
                 .addGap(20, 20, 20))
         );
 
@@ -212,7 +239,7 @@ public class InicioDeSesion extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(63, 63, 63)))
-                .addContainerGap(244, Short.MAX_VALUE))
+                .addContainerGap(254, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,10 +253,6 @@ public class InicioDeSesion extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
          RegistrarUsuario aber = new RegistrarUsuario(fileManager);
@@ -270,8 +293,24 @@ public class InicioDeSesion extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void SalirbotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirbotonActionPerformed
+       int result = JOptionPane.showConfirmDialog(null, "Esta seguro?", "InfoBox: " + "confirmar", JOptionPane.OK_CANCEL_OPTION);
+       if(result == JOptionPane.OK_OPTION){
+       System.exit(0);
+       }
+    }//GEN-LAST:event_SalirbotonActionPerformed
+
+    private void jTextField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyTyped
+
+    }//GEN-LAST:event_jTextField1KeyTyped
+
+    private void jPasswordField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyTyped
+
+    }//GEN-LAST:event_jPasswordField1KeyTyped
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Salirboton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;

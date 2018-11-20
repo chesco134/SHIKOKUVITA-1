@@ -14,6 +14,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import Categorias.*;
+import java.awt.Event;
+import java.awt.event.KeyEvent;
+import javax.swing.InputMap;
+import javax.swing.KeyStroke;
 
 /**
  *
@@ -55,6 +59,10 @@ public class ModAdmin extends javax.swing.JFrame {
             jPanel1.setToolTipText(null);
             recargaCombo(true);
             recargarCategoria();
+//
+        InputMap map2 = agregarCategorias.getInputMap(agregarCategorias.WHEN_FOCUSED);
+        map2.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+//
 	}
         
         private void guardarCambios(){
@@ -86,6 +94,7 @@ public class ModAdmin extends javax.swing.JFrame {
         RecuperarContrasena = new javax.swing.JButton();
         comboRecuperar = new javax.swing.JComboBox<>();
         CerrarSesion = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -123,6 +132,12 @@ public class ModAdmin extends javax.swing.JFrame {
             }
         });
 
+        agregarCategorias.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                agregarCategoriasKeyTyped(evt);
+            }
+        });
+
         AgregarCategoria.setText("Agregar Categoria");
         AgregarCategoria.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -153,6 +168,13 @@ public class ModAdmin extends javax.swing.JFrame {
         CerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 CerrarSesionMouseClicked(evt);
+            }
+        });
+
+        jButton1.setText("Guardar Cambios");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -188,10 +210,12 @@ public class ModAdmin extends javax.swing.JFrame {
                             .addComponent(agregarCategorias)
                             .addComponent(Categorias, 0, 194, Short.MAX_VALUE))))
                 .addContainerGap(138, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(CerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(208, 208, 208))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,8 +242,10 @@ public class ModAdmin extends javax.swing.JFrame {
                         .addComponent(comboRecuperar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(AgregarCategoria)))
                 .addGap(18, 18, 18)
-                .addComponent(CerrarSesion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(CerrarSesion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -237,7 +263,6 @@ public class ModAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CerrarSesionMouseClicked
-        guardarCambios();
         InicioDeSesion ids = new InicioDeSesion(fileManager, categoriesManager);
         this.dispose();
         ids.setVisible(true);
@@ -367,6 +392,21 @@ public class ModAdmin extends javax.swing.JFrame {
 		
     }//GEN-LAST:event_EliminarUsuarioActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+                guardarCambios();
+        JOptionPane.showMessageDialog(this, "Cambios guardados", "Guardado exitoso", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void agregarCategoriasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_agregarCategoriasKeyTyped
+//
+        char c = evt.getKeyChar();
+        if ((Character.isAlphabetic(c))) {
+        } else {
+            evt.consume();
+        }
+//        
+    }//GEN-LAST:event_agregarCategoriasKeyTyped
+
     private void recargaCombo(boolean fromFile){
         Usuario [] us = null;
         if(fromFile)
@@ -407,6 +447,7 @@ public class ModAdmin extends javax.swing.JFrame {
     private javax.swing.JTextField agregarCategorias;
     private javax.swing.JComboBox<String> comboRecuperar;
     private javax.swing.JComboBox<String> comboUsuarios;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

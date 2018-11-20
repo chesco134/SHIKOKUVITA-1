@@ -7,8 +7,12 @@ import Seguridad.MD5HAsh;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import Categorias.*;
+import java.awt.Event;
+import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
+import javax.swing.InputMap;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -45,8 +49,14 @@ public class RegistrarUsuario extends javax.swing.JFrame {
         int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
         this.setBounds((ancho / 2) - (this.getWidth() / 2),  (alto / 2) - (this.getHeight() / 2),1080 , 720);
         setVisible(true);
-        //jTextField1.setText("Introduce tu nombre de usuario");
-        // this.setSize(new Dimension(950, 650));
+//
+        InputMap map = jTextField1.getInputMap(jTextField1.WHEN_FOCUSED);
+        map.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+        InputMap map2 = jPasswordField1.getInputMap(jPasswordField1.WHEN_FOCUSED);
+        map2.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+        InputMap map3 = jPasswordField2.getInputMap(jPasswordField2.WHEN_FOCUSED);
+        map3.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+//
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -130,11 +140,6 @@ public class RegistrarUsuario extends javax.swing.JFrame {
         jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTextField1MouseClicked(evt);
-            }
-        });
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
             }
         });
 
@@ -293,10 +298,6 @@ public class RegistrarUsuario extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-       //jTextField1.setText("");
-    }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
         //jPasswordField1.setText("");
