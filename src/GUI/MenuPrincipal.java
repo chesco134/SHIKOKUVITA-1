@@ -82,9 +82,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
 		
 		Desecho des = new Desecho("",0,false);
 
-		for(int i = 0; i < categoriesManager.getUsuarios().length; i++){
-			cantidades.add(des);
-		}
+		//for(int i = 0; i < categoriesManager.getUsuarios().length; i++){
+		//	cantidades.add(des);
+		//}
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
@@ -409,11 +409,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
 		String texto = jTextField2.getText();
 		int posicion;
-		if(cantidades.size() == categoriesManager.getUsuarios().length ){
+		if(cantidades.size() == categoriesManager.getUsuarios().length - 1){
 			jButton10.setVisible(true);
 		}else{
 			jButton10.setVisible(false);
 		}
+		System.out.println(cantidades.size());
+		System.out.println(categoriesManager.getUsuarios().length);
 		if(texto.equals("")){
             JOptionPane.showMessageDialog(this, "No hay ningun valor seleccionado", "Falta de valor", JOptionPane.ERROR_MESSAGE);
 		}else{
