@@ -82,10 +82,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
 		
 		Desecho des = new Desecho("",0,false);
 
-		//for(int i = 0; i < categoriesManager.getUsuarios().length; i++){
-		//	cantidades.add(des);
-		//}
-
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
@@ -95,6 +91,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
 		jScrollPane1.add(jTextArea1);
         jScrollPane1.setViewportView(jTextArea1);
 		categorias();
+
+		InputMap map = jTextField2.getInputMap(jTextField2.WHEN_FOCUSED);
+        map.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
       
     }
 
@@ -423,10 +422,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
 			if(cantidades.contains(des)){
 				posicion = cantidades.indexOf(des);
 				cantidades.set(posicion, des);
-				System.out.println("se repite");
 			}else{
 				cantidades.add(des);
-				System.out.println("no se repite");
 			}
 		}
     }//GEN-LAST:event_jButton6ActionPerformed
@@ -440,12 +437,22 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_gramosActionPerformed
 
     private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
+
+		char c = evt.getKeyChar();
+		int tam = jTextField2.getText().length();
+		if(tam >= 10){
+		    evt.consume();
+		            }else{
+		if ((Character.isDigit(c))) {
+		} else {
+		    evt.consume();
+		}}
     }//GEN-LAST:event_jTextField2KeyTyped
-	private boolean botonABooleano(){
-		if(gramos.isSelected()){
-			return true;
+	private JToggleButton botonABooleano(boolean b){
+		if(b){
+			return gramos;
 		}else{
-			return false;
+			return kg;
 		}
 	}
 	
@@ -486,6 +493,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
 				nombreBotonsel = toggled.getActionCommand();
 				if(cantidades.contains(new Desecho(nombreBotonsel, 0, false))){
 					jTextField2.setText(Integer.toString(obtenerDesCategoria(nombreBotonsel).getCantidad()));
+					boolean prueba = obtenerDesCategoria(nombreBotonsel).isTipoMasa();
+					botonABooleano(prueba).doClick();
 				}else{
 					jTextField2.setText("");
 				}
