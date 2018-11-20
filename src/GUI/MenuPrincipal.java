@@ -19,9 +19,14 @@ import javax.swing.JToggleButton;
 import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
 import Categorias.*;
 import Desecho.Desecho;
+import java.awt.Event;
+import java.awt.event.KeyEvent;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import javax.swing.InputMap;
+import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 
 public class MenuPrincipal extends javax.swing.JFrame {
 	
@@ -49,7 +54,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void doMachin() {
 
 		LectorArchivo la = new LectorArchivo();
-		
+
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/Imágenes/logo.PNG")).getImage());
         int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -225,6 +230,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 jTextField2ActionPerformed(evt);
             }
         });
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField2KeyTyped(evt);
+            }
+        });
 
         gramos.setText("gramos");
         gramos.addActionListener(new java.awt.event.ActionListener() {
@@ -398,27 +408,23 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
 		String texto = jTextField2.getText();
+		int posicion;
 		if(cantidades.size() == categoriesManager.getUsuarios().length ){
 			jButton10.setVisible(true);
 		}else{
 			jButton10.setVisible(false);
 		}
-		boolean repeticion = false;
-		int indice = 0;
-		for(Desecho d : cantidades){
-			if(d.getCategoria().equals(texto)){
-				repeticion = true;
-			}
-			indice++;
-		}
-		if(!texto.equals("")){
+		if(texto.equals("")){
+            JOptionPane.showMessageDialog(this, "No hay ningun valor seleccionado", "Falta de valor", JOptionPane.ERROR_MESSAGE);
+		}else{
 			Desecho des = new Desecho(nombreBotonsel, Integer.parseInt(texto),botonABooleano());
-			if(!repeticion){
-				cantidades.add(des);
-				System.out.println("original");
+			if(cantidades.contains(des)){
+				posicion = cantidades.indexOf(des);
+				cantidades.set(posicion, des);
+				System.out.println("se repite");
 			}else{
-				cantidades.set(indice, des);
-				System.out.println("copia");
+				cantidades.add(des);
+				System.out.println("no se repite");
 			}
 		}
     }//GEN-LAST:event_jButton6ActionPerformed
@@ -430,6 +436,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void gramosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gramosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_gramosActionPerformed
+
+    private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
+    }//GEN-LAST:event_jTextField2KeyTyped
 	private boolean botonABooleano(){
 		if(gramos.isSelected()){
 			return true;
@@ -468,11 +477,17 @@ public class MenuPrincipal extends javax.swing.JFrame {
 				Random rn = new Random();
 				int rand = rn.nextInt(10 - 1 + 1) + 1;
         		jTextArea1.setText(la.LectorArchivoLinea(new File("src/Archivos/DatosCuriosos/" + rand + ".txt")));
-				jTextField2.setText("");
+				
 				gramos.setSelected(true);
 				setVisibleInicio();
 					
 				nombreBotonsel = toggled.getActionCommand();
+				if(cantidades.contains(new Desecho(nombreBotonsel, 0, false))){
+					jTextField2.setText(Integer.toString(obtenerDesCategoria(nombreBotonsel).getCantidad()));
+				}else{
+					jTextField2.setText("");
+				}
+
 						
 				jLabel1.setText(nombreBotonsel);
 				}
@@ -494,7 +509,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
 		categoriasScroll.setViewportView(categorias);
 		categoriasScroll.setVisible(true);
 		
-
+	}
+	
+	private Desecho obtenerDesCategoria(String name){
+		for (Desecho c : cantidades) {
+		    if (c.getCategoria().equals(name)) {
+		        return c;
+		    }
+		}
+	return null;
 	}
 
 	private void setInvisibleInicio(){
