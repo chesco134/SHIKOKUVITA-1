@@ -448,7 +448,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
 		    evt.consume();
 		}}
     }//GEN-LAST:event_jTextField2KeyTyped
-	private JToggleButton botonABooleano(boolean b){
+	private boolean botonABooleano(){
+		if(gramos.isSelected()){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	private JToggleButton booleanoABoton(boolean b){
 		if(b){
 			return gramos;
 		}else{
@@ -494,7 +502,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 				if(cantidades.contains(new Desecho(nombreBotonsel, 0, false))){
 					jTextField2.setText(Integer.toString(obtenerDesCategoria(nombreBotonsel).getCantidad()));
 					boolean prueba = obtenerDesCategoria(nombreBotonsel).isTipoMasa();
-					botonABooleano(prueba).doClick();
+					booleanoABoton(prueba).doClick();
 				}else{
 					jTextField2.setText("");
 				}
