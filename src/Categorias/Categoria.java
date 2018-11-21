@@ -1,5 +1,7 @@
 package Categorias;
 
+import java.io.File;
+
 
 public class Categoria 
 {
