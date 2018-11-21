@@ -326,6 +326,8 @@ public class ModAdmin extends javax.swing.JFrame {
             String newPass="";
             boolean trul = true;
             String passwd = JOptionPane.showInputDialog(null, "Ingrese la nueva contrasena", "Recuperar contrasena", JOptionPane.QUESTION_MESSAGE);
+            String passwdconf = JOptionPane.showInputDialog(null, "Ingrese de nuevo la contrasena", "Recuperar contrasena", JOptionPane.QUESTION_MESSAGE);
+			if(passwd.equals(passwdconf)){
             if(passwd != null){
                 newPass = passwd;
                 trul = true;
@@ -345,6 +347,9 @@ public class ModAdmin extends javax.swing.JFrame {
             }else{
                 JOptionPane.showMessageDialog(this, "Cancelado.", "Cancelado", JOptionPane.ERROR_MESSAGE);
             }
+			}else{
+                JOptionPane.showMessageDialog(this, "Las contrasenas no coinciden", "Cancelado", JOptionPane.ERROR_MESSAGE);
+			}
         }
     }//GEN-LAST:event_RecuperarContrasenaMouseClicked
 
