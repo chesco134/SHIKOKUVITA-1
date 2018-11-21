@@ -20,17 +20,16 @@ public class LectorArchivo {
    //     }
    // }
 
-
     public String LectorArchivoLinea(File nombreDeArchivo){
-		String x = "";
+        String x = "";
         try {
             br = new java.io.BufferedReader(new java.io.InputStreamReader(new java.io.FileInputStream(nombreDeArchivo), "UTF-8"));
-			x = br.readLine();
+            x = br.readLine();
         } catch (java.io.IOException e) {
             br = null;
             System.out.println("Error al leer el archivo, razón: " + e.getMessage());
         }
-		return x;
+        return x;
     }
 
     public boolean isActive() {

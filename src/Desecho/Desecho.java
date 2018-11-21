@@ -10,14 +10,15 @@ import org.apache.commons.lang3.builder.*;
  * @author tetra
  */
 public class Desecho {
+    
 	private String categoria;
 	private int Cantidad;
 	private boolean tipoMasa;
 
 	public Desecho(String categoria, int Cantidad,boolean tipoMasa) {
-		this.categoria = categoria;
-		this.Cantidad = Cantidad;
-		this.tipoMasa = tipoMasa;
+            this.categoria = categoria;
+            this.Cantidad = Cantidad;
+            this.tipoMasa = tipoMasa;
 	}
 
 	public String getCategoria() {
@@ -44,7 +45,7 @@ public class Desecho {
 		this.tipoMasa = tipoMasa;
 	}
 
- @Override
+    @Override
     public boolean equals(Object o) {
 
         if (o == this) return true;
@@ -65,7 +66,4 @@ public class Desecho {
                 .append(categoria)
                 .toHashCode();
     }
-
-	
-	
 }

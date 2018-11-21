@@ -24,13 +24,14 @@ import java.awt.event.KeyEvent;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.InputMap;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
 public class MenuPrincipal extends javax.swing.JFrame {
-	
-
+    
     private ManejadorArchivoUsuarios fileManager;
     private ManejoArchivoCategorias categoriesManager;
     private ArrayList<Desecho> cantidades = new ArrayList<>();
@@ -49,17 +50,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
             e.printStackTrace();
         }
         doMachin();
-}
+    }
 
     private void doMachin() {
         initComponents();
         LectorArchivo la = new LectorArchivo();
         try{
-        jTextField2.setTransferHandler(null);
+            jTextField2.setTransferHandler(null);
         }catch(NullPointerException ex){
-                        ex.printStackTrace();
+            ex.printStackTrace();
         }
-
         setIconImage(new ImageIcon(getClass().getResource("/Imágenes/logo.PNG")).getImage());
         int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
         int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -68,38 +68,28 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jPanel1.setToolTipText(null);
         jPanel2.setToolTipText(null);
         jPanel3.setToolTipText(null);
-
         //jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         //jPanel2.setPreferredSize(new Dimension(847, 574));
-
         jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jLabel1.setText("¿Cómo calculo mis residuos con Shikoku Vita?");
-
-		
         jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jLabel2.setText("Ingresa la cantidad de basura que generaste");
-
         buttonGroup1.add(kg);
         buttonGroup1.add(gramos);
-
         setInvisibleInicio();
-
         Desecho des = new Desecho("",0,false);
-
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jTextArea1.setLineWrap(true);
         jTextArea1.setRows(5);
         jTextArea1.setText(la.LectorArchivoLinea(new File("src/Archivos/Introduccion/introduccion.txt")));
-		jScrollPane1.add(jTextArea1);
+        jScrollPane1.add(jTextArea1);
         jScrollPane1.setViewportView(jTextArea1);
-		categorias();
-
-		InputMap map = jTextField2.getInputMap(jTextField2.WHEN_FOCUSED);
+        categorias();
+        InputMap map = jTextField2.getInputMap(jTextField2.WHEN_FOCUSED);
         map.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
-		map.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.SHIFT_MASK), "null");
-      
+        map.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.SHIFT_MASK), "null");
     }
 
     /**
@@ -391,46 +381,52 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
-		this.pack();
+        this.pack();
     }//GEN-LAST:event_formComponentResized
 
     private void jButton10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10MouseClicked
-		Estadistica es = new Estadistica(fileManager, cantidades);
-		//this.dispose();
-		es.setVisible(true);
-
+        Estadistica es = new Estadistica(fileManager, cantidades);
+        //this.dispose();
+        es.setVisible(true);
     }//GEN-LAST:event_jButton10MouseClicked
 
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
+        try {
+            categoriesManager.guardaCategorias(URLDecoder.decode(getClass().getResource("/shikokuvita/Categorias").getFile(),"UTF-8"));
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         InicioDeSesion ids = new InicioDeSesion(fileManager, categoriesManager);
         this.dispose();
         ids.setVisible(true);
     }//GEN-LAST:event_jButton7MouseClicked
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+
+
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-		String texto = jTextField2.getText();
-		int posicion;
-		if(cantidades.size() == categoriesManager.getUsuarios().length - 1){
-			jButton10.setVisible(true);
-		}else{
-			jButton10.setVisible(false);
-		}
-		System.out.println(cantidades.size());
-		System.out.println(categoriesManager.getUsuarios().length);
-		if(texto.equals("")){
+        String texto = jTextField2.getText();
+        int posicion;
+        if(cantidades.size() == categoriesManager.getUsuarios().length - 1){
+            jButton10.setVisible(true);
+        }else{
+            jButton10.setVisible(false);
+        }
+        System.out.println(cantidades.size());
+        System.out.println(categoriesManager.getUsuarios().length);
+        if(texto.equals("")){
             JOptionPane.showMessageDialog(this, "No hay ningun valor seleccionado", "Falta de valor", JOptionPane.ERROR_MESSAGE);
-		}else{
-			Desecho des = new Desecho(nombreBotonsel, Integer.parseInt(texto),botonABooleano());
-			if(cantidades.contains(des)){
-				posicion = cantidades.indexOf(des);
-				cantidades.set(posicion, des);
-			}else{
-				cantidades.add(des);
-			}
-			}
+        }else{
+            Desecho des = new Desecho(nombreBotonsel, Integer.parseInt(texto),botonABooleano());
+            if(cantidades.contains(des)){
+                posicion = cantidades.indexOf(des);
+                cantidades.set(posicion, des);
+            }else{
+                cantidades.add(des);
+            }
+        }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
@@ -442,138 +438,131 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_gramosActionPerformed
 
     private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
-
-		char c = evt.getKeyChar();
-		int tam = jTextField2.getText().length();
-		if(tam >= 10){
-		    evt.consume();
-		            }else{
-		if ((Character.isDigit(c))) {
-		} else {
-		    evt.consume();
-		}}
+        char c = evt.getKeyChar();
+        int tam = jTextField2.getText().length();
+        if(tam >= 10){
+            evt.consume();
+        }else{
+            if ((Character.isDigit(c))) {
+            } else {
+                evt.consume();
+            }
+        }
     }//GEN-LAST:event_jTextField2KeyTyped
-	private boolean botonABooleano(){
-		if(gramos.isSelected()){
-			return true;
-		}else{
-			return false;
-		}
-	}
-	
-	private JToggleButton booleanoABoton(boolean b){
-		if(b){
-			return gramos;
-		}else{
-			return kg;
-		}
-	}
-	
-	private void categorias(){
-		ButtonGroup bg = new ButtonGroup();
+    
+    private boolean botonABooleano(){
+        if(gramos.isSelected()){
+                return true;
+        }else{
+                return false;
+        }
+    }
 
+    private JToggleButton booleanoABoton(boolean b){
+        if(b){
+            return gramos;
+        }else{
+            return kg;
+        }
+    }
+	
+    private void categorias(){
+        ButtonGroup bg = new ButtonGroup();
         categorias.setLayout(new GridBagLayout());
-		GridBagConstraints gb = new GridBagConstraints();
-		gb.anchor = GridBagConstraints.NORTH;
-		gb.fill = GridBagConstraints.NONE;
-		gb.weighty = 1.0;
-		gb.gridy = GridBagConstraints.RELATIVE;
-		gb.gridwidth = 0;
-		
+        GridBagConstraints gb = new GridBagConstraints();
+        gb.anchor = GridBagConstraints.NORTH;
+        gb.fill = GridBagConstraints.NONE;
+        gb.weighty = 1.0;
+        gb.gridy = GridBagConstraints.RELATIVE;
+        gb.gridwidth = 0;
         categorias.setLayout(new BoxLayout(categorias, 1));
+        Categoria currentCategory;
         for(int i=0; i<categoriesManager.getUsuarios().length;i++){
-            JToggleButton button = new JToggleButton(categoriesManager.getUsuarios()[i].getNombreCategoria());
+            JToggleButton button = new JToggleButton((currentCategory = categoriesManager.getUsuarios()[i]).getNombreCategoria());
             button.setPreferredSize(new Dimension(130,90));
             button.setMinimumSize(new Dimension(130,90));
             button.setMaximumSize(new Dimension(130,90));
-			button.setName("" + i);
-			
-			button.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JToggleButton toggled =(JToggleButton) e.getSource();
-				if(!nombreBotonsel.equals(toggled.getActionCommand())){
-
-				LectorArchivo la = new LectorArchivo();
-				Random rn = new Random();
-				int rand = rn.nextInt(10 - 1 + 1) + 1;
-        		jTextArea1.setText(la.LectorArchivoLinea(new File("src/Archivos/DatosCuriosos/" + rand + ".txt")));
-				
-				gramos.setSelected(true);
-				setVisibleInicio();
-					
-				nombreBotonsel = toggled.getActionCommand();
-				if(cantidades.contains(new Desecho(nombreBotonsel, 0, false))){
-					jTextField2.setText(Integer.toString(obtenerDesCategoria(nombreBotonsel).getCantidad()));
-					boolean prueba = obtenerDesCategoria(nombreBotonsel).isTipoMasa();
-					booleanoABoton(prueba).doClick();
-				}else{
-					jTextField2.setText("");
-				}
-
-						
-				jLabel1.setText(nombreBotonsel);
-				}
-					
-				
-        		    }
-        		});
-			
-			bg.add(button);
+            button.setName("" + i);
+            LectorArchivo la = new LectorArchivo();
+            Random rn = new Random();
+            int rand = rn.nextInt(10 - 1 + 1) + 1;
+            if(currentCategory.getDescCategoria() == null || "".equals(currentCategory.getDescCategoria()))
+               currentCategory.setDescCategoria(la.LectorArchivoLinea(new File("src/Archivos/DatosCuriosos/" + rand + ".txt")));
+            button.addActionListener(new MyActionListener(currentCategory.getDescCategoria()));
+            bg.add(button);
             categorias.add(button, gb);
         }
-		flowPanel.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
-		flowPanel.setLayout(new BorderLayout());
-		flowPanel.setVisible(true);
-		flowPanel.add(categorias);
-		categoriasScroll.add(flowPanel);
-		categoriasScroll.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_AS_NEEDED);
-		categoriasScroll.getVerticalScrollBar().setUnitIncrement(16);
-		categoriasScroll.setViewportView(categorias);
-		categoriasScroll.setVisible(true);
-		
-	}
+        flowPanel.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
+        flowPanel.setLayout(new BorderLayout());
+        flowPanel.setVisible(true);
+        flowPanel.add(categorias);
+        categoriasScroll.add(flowPanel);
+        categoriasScroll.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_AS_NEEDED);
+        categoriasScroll.getVerticalScrollBar().setUnitIncrement(16);
+        categoriasScroll.setViewportView(categorias);
+        categoriasScroll.setVisible(true);
+    }
+    
+    private class MyActionListener implements ActionListener{
+        
+        private String description;
+        
+        public MyActionListener(String description){
+            this.description = description;
+        }
+        
+        @Override
+        public void actionPerformed(ActionEvent evt){
+            JToggleButton toggled = (JToggleButton) evt.getSource();
+            if(!nombreBotonsel.equals(toggled.getActionCommand())){
+                jTextArea1.setText(description);
+                gramos.setSelected(true);
+                setVisibleInicio();
+                nombreBotonsel = toggled.getActionCommand();
+                if(cantidades.contains(new Desecho(nombreBotonsel, 0, false))){
+                    jTextField2.setText(Integer.toString(obtenerDesCategoria(nombreBotonsel).getCantidad()));
+                    boolean prueba = obtenerDesCategoria(nombreBotonsel).isTipoMasa();
+                    booleanoABoton(prueba).doClick();
+                }else{
+                    jTextField2.setText("");
+                }
+                jLabel1.setText(nombreBotonsel);
+            }
+        }
+    }
 	
-	private Desecho obtenerDesCategoria(String name){
-		for (Desecho c : cantidades) {
-		    if (c.getCategoria().equals(name)) {
-		        return c;
-		    }
-		}
-	return null;
-	}
+    private Desecho obtenerDesCategoria(String name){
+        for (Desecho c : cantidades) {
+            if (c.getCategoria().equals(name)) {
+                return c;
+            }
+        }
+        return null;
+    }
 
-	private void setInvisibleInicio(){
+    private void setInvisibleInicio(){
+        //jPanel3.setVisible(false);
+        //jPanel2.setVisible(false);
+        jLabel1.setVisible(true);
+        jLabel2.setVisible(false);
+        jTextField2.setVisible(false);
+        gramos.setVisible(false);
+        kg.setVisible(false);
+        jButton6.setVisible(false);
+        jButton10.setVisible(false);
+    }
 
-		//jPanel3.setVisible(false);
-		//jPanel2.setVisible(false);
-		
-		
-		jLabel1.setVisible(true);
-		jLabel2.setVisible(false);
-		jTextField2.setVisible(false);
-		gramos.setVisible(false);
-		kg.setVisible(false);
-		jButton6.setVisible(false);
-		jButton10.setVisible(false);
-		
-	}
-
-	private void setVisibleInicio(){
-
-		jPanel3.setVisible(true);
-		jPanel2.setVisible(true);
-		jLabel1.setVisible(true);
-		jLabel2.setVisible(true);
-		jTextField2.setVisible(true);
-		gramos.setVisible(true);
-		kg.setVisible(true);
-		jButton6.setVisible(true);
-		//jButton10.setVisible(true);
-		
-
-	}
+    private void setVisibleInicio(){
+        jPanel3.setVisible(true);
+        jPanel2.setVisible(true);
+        jLabel1.setVisible(true);
+        jLabel2.setVisible(true);
+        jTextField2.setVisible(true);
+        gramos.setVisible(true);
+        kg.setVisible(true);
+        jButton6.setVisible(true);
+        //jButton10.setVisible(true);
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

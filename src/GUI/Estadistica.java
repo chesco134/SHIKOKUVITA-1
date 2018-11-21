@@ -23,61 +23,33 @@ import java.lang.Math;
 public class Estadistica extends javax.swing.JFrame {
 	
     private ManejadorArchivoUsuarios fileManager;
-	private ArrayList<Desecho> des;
-	
-	private ButtonGroup grupo = new ButtonGroup();
-	private JRadioButton op1 = new JRadioButton("Opción 1");
-	private JRadioButton op2 = new JRadioButton("Opción 2");
-	private JRadioButton op3 = new JRadioButton("Opción 3");
-
-	private DefaultCategoryDataset datasetgrafica  = new DefaultCategoryDataset();
+    private ArrayList<Desecho> des;
+    private ButtonGroup grupo = new ButtonGroup();
+    private JRadioButton op1 = new JRadioButton("Opción 1");
+    private JRadioButton op2 = new JRadioButton("Opción 2");
+    private JRadioButton op3 = new JRadioButton("Opción 3");
+    private DefaultCategoryDataset datasetgrafica  = new DefaultCategoryDataset();
     
     public Estadistica(ManejadorArchivoUsuarios fileManager, ArrayList<Desecho> des){
         this.fileManager = fileManager;
-		this.des = des;
+        this.des = des;
         doMachin();
-	}
-	private void generardataset(){
-		double cantidad = 0d;
-		int periodoTiempo = 7;
-		int j = 0;
-		boolean primeravez = true;
-
-		for(int i = 0; i< periodoTiempo; i++){
-			j++;
-			for(Desecho d: des){
-				System.out.println(i);
-			if(!d.isTipoMasa()){
-				cantidad = (d.getCantidad() * 1000);
-			}else{
-				cantidad = d.getCantidad();
-			}
-			if(!primeravez){
-			cantidad = (Math.random() * ((cantidad + 200 - cantidad) + 1)) + cantidad;
-			}
-			datasetgrafica.addValue(cantidad, d.getCategoria(), "dia: " + j);
-
-			primeravez = false;
-			}
-		}
-	}
+    }
+    
     private void doMachin() {
         initComponents();
-		JPanel panel = new JPanel();
-
+        JPanel panel = new JPanel();
         jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 20)); // NOI18N
-
         int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
-		int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
-		this.setBounds((ancho / 2) - (this.getWidth() / 2),  (alto / 2) - (this.getHeight() / 2),1080 , 720);
-		this.setSize(1080, 720);
-		grafica.setPreferredSize(new Dimension(100, 100));
-		grafica.setMaximumSize(new Dimension(100, 100));
-		grafica.setMinimumSize(new Dimension(100, 100));
-
-		this.setMaximumSize(new Dimension(1080, 720));
-		this.setPreferredSize(new Dimension(900, 720));
-		this.setMinimumSize(new Dimension(900, 720));
+        int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
+        this.setBounds((ancho / 2) - (this.getWidth() / 2),  (alto / 2) - (this.getHeight() / 2),1080 , 720);
+        this.setSize(1080, 720);
+        grafica.setPreferredSize(new Dimension(100, 100));
+        grafica.setMaximumSize(new Dimension(100, 100));
+        grafica.setMinimumSize(new Dimension(100, 100));
+        this.setMaximumSize(new Dimension(1080, 720));
+        this.setPreferredSize(new Dimension(900, 720));
+        this.setMinimumSize(new Dimension(900, 720));
 
 	//	for(Desecho c: des){
 	//		jComboBox1.addItem(c.getCategoria());
@@ -94,34 +66,54 @@ public class Estadistica extends javax.swing.JFrame {
         getContentPane().setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         //setSize(300, 120);
-		generardataset();
-		mostrarGrafica();
-		int total = 0 ;
-		for(Desecho d: des){
-			total += d.getCantidad();
-		}
-		if(total >= 1400){
-			jLabel1.setText("generas demasiada basura al dia");
-		}else if(total >= 1000){
-			jLabel1.setText("Vas bien, pero puede mejorar");
-		}else if(total < 1000){
-			jLabel1.setText("bien! Sigue asi");
-		}
+        int total = 0 ;
+        for(Desecho d : des){
+            total += d.getCantidad();
+        }
+        if(total >= 1400){
+                jLabel1.setText("generas demasiada basura al dia");
+        }else if(total >= 1000){
+                jLabel1.setText("Vas bien, pero puede mejorar");
+        }else if(total < 1000){
+                jLabel1.setText("bien! Sigue asi");
+        }
         setVisible(true);
-
-		
+        generardataset();
+        mostrarGrafica();
     }
-	private void mostrarGrafica(){
-		String periodoTiempo= "semana";
-
+    
+    private void generardataset(){
+        double cantidad = 0d;
+        int periodoTiempo = 7;
+        int j = 0;
+        boolean primeravez = true;
+        for(int i = 0; i< periodoTiempo; i++){
+            j++;
+            for(Desecho d: des){
+                System.out.println(i);
+                if(!d.isTipoMasa()){
+                    cantidad = (d.getCantidad());
+                }else{
+                    cantidad = d.getCantidad() * 1000;
+                }
+                if(!primeravez){
+                    cantidad = (Math.random() * ((cantidad + 200 - cantidad) + 1)) + cantidad;
+                }
+                datasetgrafica.addValue(cantidad, d.getCategoria(), "dia: " + j);
+                primeravez = false;
+            }
+        }
+    }
+    
+    private void mostrarGrafica(){
+        String periodoTiempo= "semana";
         grafica.setLayout(new BorderLayout());
-		   JFreeChart panela = ChartFactory.createBarChart("Basura generada", periodoTiempo, "gramos", datasetgrafica);
-		   ChartPanel panel = new ChartPanel(panela);
-
-            //panel.setSize(400, 600);
-            grafica.add(panel,0);
-            //this.pack();
-	}
+        JFreeChart panela = ChartFactory.createBarChart("Basura generada", periodoTiempo, "gramos", datasetgrafica);
+        ChartPanel panel = new ChartPanel(panela);
+        //panel.setSize(400, 600);
+        grafica.add(panel,0);
+        //this.pack();
+    }
 	
 
 

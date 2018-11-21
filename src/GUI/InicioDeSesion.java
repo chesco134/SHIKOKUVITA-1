@@ -63,6 +63,49 @@ public class InicioDeSesion extends javax.swing.JFrame {
 //
     }
     
+    private void doLogin(){
+        Usuario usuarioActual;
+		  if (jTextField1.getText().isEmpty())
+            {
+                jTextField1.requestFocus();// regresa el foco al jtext de la boleta
+				JOptionPane.showMessageDialog(null, "No puedes dejar ningun campo en blanco","Formato Incorrecto", JOptionPane.ERROR_MESSAGE);
+            }
+            else 
+            {
+		     if (jPasswordField1.getText().isEmpty())
+            {
+                jPasswordField1.requestFocus();// regresa el foco al jtext de la boleta
+				JOptionPane.showMessageDialog(null, "No puedes dejar ningun campo en blanco","Formato Incorrecto", JOptionPane.ERROR_MESSAGE);
+            }
+            else 
+            {
+        if(( usuarioActual = checkUser(jTextField1.getText(), new String(jPasswordField1.getPassword()))) != null){
+            this.dispose();
+            if(usuarioActual.getPrivilegio()){
+                    new ModAdmin(fileManager, categoriesManager).setVisible(true);
+            }else{
+                    new MenuPrincipal(fileManager, categoriesManager).setVisible(true);
+            }
+            try{
+                fileManager.guardaUsuarios(URLDecoder.decode(ManejadorArchivoUsuarios.class.getResource("/shikokuvita/forbiddenmemories").getFile(),"UTF-8"));
+                if(jRadioButton1.isSelected()){
+                    fileManager.setUsuarioActual(usuarioActual);
+                    fileManager.guardaUsuarioActual(URLDecoder.decode(IniciarSesion.class.getResource("/shikokuvita/forbiddenmemories2").getFile(),"UTF-8"));
+                }
+            }catch(UnsupportedEncodingException e){
+                e.printStackTrace();
+            }
+        }
+		else
+		{
+				jPasswordField1.requestFocus();// regresa el foco al jtext de la boleta
+				JOptionPane.showMessageDialog(null, "El usuario o contraseña son incorrectos","Formato Incorrecto", JOptionPane.ERROR_MESSAGE);	
+				jPasswordField1.setText("");
+		}
+			}
+			}
+    }
+    
     private Usuario checkUser(String userName, String pass){
         return fileManager.containsUser(new Usuario(userName, new MD5HAsh().makeHash(pass)));
     }
@@ -244,7 +287,7 @@ public class InicioDeSesion extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(139, Short.MAX_VALUE)
+                .addContainerGap(94, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(102, 102, 102)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -274,46 +317,7 @@ public class InicioDeSesion extends javax.swing.JFrame {
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Usuario usuarioActual;
-		  if (jTextField1.getText().isEmpty())
-            {
-                jTextField1.requestFocus();// regresa el foco al jtext de la boleta
-				JOptionPane.showMessageDialog(null, "No puedes dejar ningun campo en blanco","Formato Incorrecto", JOptionPane.ERROR_MESSAGE);
-            }
-            else 
-            {
-		     if (jPasswordField1.getText().isEmpty())
-            {
-                jPasswordField1.requestFocus();// regresa el foco al jtext de la boleta
-				JOptionPane.showMessageDialog(null, "No puedes dejar ningun campo en blanco","Formato Incorrecto", JOptionPane.ERROR_MESSAGE);
-            }
-            else 
-            {
-        if(( usuarioActual = checkUser(jTextField1.getText(), new String(jPasswordField1.getPassword()))) != null){
-            this.dispose();
-            if(usuarioActual.getPrivilegio()){
-                    new ModAdmin(fileManager, categoriesManager).setVisible(true);
-            }else{
-                    new MenuPrincipal(fileManager, categoriesManager).setVisible(true);
-            }
-            try{
-                fileManager.guardaUsuarios(URLDecoder.decode(ManejadorArchivoUsuarios.class.getResource("/shikokuvita/forbiddenmemories").getFile(),"UTF-8"));
-                if(jRadioButton1.isSelected()){
-                    fileManager.setUsuarioActual(usuarioActual);
-                    fileManager.guardaUsuarioActual(URLDecoder.decode(IniciarSesion.class.getResource("/shikokuvita/forbiddenmemories2").getFile(),"UTF-8"));
-                }
-            }catch(UnsupportedEncodingException e){
-                e.printStackTrace();
-            }
-        }
-		else
-		{
-				jPasswordField1.requestFocus();// regresa el foco al jtext de la boleta
-				JOptionPane.showMessageDialog(null, "El usuario o contraseña son incorrectos","Formato Incorrecto", JOptionPane.ERROR_MESSAGE);	
-				jPasswordField1.setText("");
-		}
-			}
-			}
+        doLogin();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void SalirbotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirbotonActionPerformed
@@ -328,7 +332,9 @@ public class InicioDeSesion extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1KeyTyped
 
     private void jPasswordField1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyTyped
-
+        if(evt.getKeyChar() == '\n'){
+            doLogin();
+        }
     }//GEN-LAST:event_jPasswordField1KeyTyped
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

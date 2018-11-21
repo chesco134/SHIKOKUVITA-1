@@ -44,13 +44,13 @@ public class ModAdmin extends javax.swing.JFrame {
             e.printStackTrace();
         }
 
-		try {
-			fileManager.recuperarUsuarioActual(URLDecoder.decode(IniciarSesion.class.getResource("/shikokuvita/forbiddenmemories2").getFile(),"UTF-8"));
-		} catch (UnsupportedEncodingException ex) {
-			Logger.getLogger(ModAdmin.class.getName()).log(Level.SEVERE, null, ex);
-		}
+        try {
+                fileManager.recuperarUsuarioActual(URLDecoder.decode(IniciarSesion.class.getResource("/shikokuvita/forbiddenmemories2").getFile(),"UTF-8"));
+        } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(ModAdmin.class.getName()).log(Level.SEVERE, null, ex);
+        }
         doMachin();
-}
+    }
 	private void doMachin() {
             initComponents();
             int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
@@ -322,17 +322,9 @@ public class ModAdmin extends javax.swing.JFrame {
         if(fileManager.getUsuarios().length == 0){
             JOptionPane.showMessageDialog(this, "No hay usuarios", "Falta de usuarios", JOptionPane.ERROR_MESSAGE);
         }else{
-            int x = comboRecuperar.getSelectedIndex();
+            String theName = (String)comboRecuperar.getSelectedItem();
             String newPass="";
             boolean trul = true;
-            Usuario[] us = null;
-            try {
-                us = fileManager.recuperaUsuarios(URLDecoder.decode(ManejadorArchivoUsuarios.class.getResource("/shikokuvita/forbiddenmemories").getFile(), "UTF-8"));
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(ModAdmin.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            String user = us[x].getNombreUsuario();
-            boolean priv = us[x].getPrivilegio();
             String passwd = JOptionPane.showInputDialog(null, "Ingrese la nueva contrasena", "Recuperar contrasena", JOptionPane.QUESTION_MESSAGE);
             if(passwd != null){
                 newPass = passwd;
@@ -346,9 +338,7 @@ public class ModAdmin extends javax.swing.JFrame {
                         && newPass.matches(".*[0-9].*")
                         && newPass.matches(".*[^A-Za-zñÑ0-9 ].*")
                         && newPass.length() > 4){
-                    Usuario usr = fileManager.getUserByName(user);
-                    usr.setNewPasswd(newPass);
-                    JOptionPane.showMessageDialog(null, "La nueva contrasena es: " + passwd, "InfoBox: " + "confirmar", JOptionPane.OK_OPTION);
+                    fileManager.getUserByName(theName).setNewPasswd(new MD5HAsh().makeHash(newPass));
                 } else {
                     JOptionPane.showMessageDialog(this, "La contraseña es débil, debe tener al menos una letra mayúscula, una minúscula, un número, un símbolo y mínimo 5 caracteres.", "Contraseña Débil", JOptionPane.ERROR_MESSAGE);
                 }
@@ -367,34 +357,32 @@ public class ModAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_EliminarCategoriaActionPerformed
 
     private void EliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarUsuarioActionPerformed
-
-		if(fileManager.getUsuarios().length == 0){
+        if(fileManager.getUsuarios().length == 0){
             JOptionPane.showMessageDialog(this, "No hay usuarios", "Falta de usuarios", JOptionPane.ERROR_MESSAGE);
-		}else{
-
-        int x = comboUsuarios.getSelectedIndex();
-        boolean trel;
-		int j=comboUsuarios.getComponentCount();
-        if(auxiliar < j+1){
-            trel = false;
         }else{
-            trel = true;
-        }
-            if(!trel){
-                if(comboUsuarios.getComponentCount()!= 0){
-                    
-			int result = JOptionPane.showConfirmDialog(null, "Esta seguro?", "InfoBox: " + "confirmar", JOptionPane.OK_CANCEL_OPTION);
-        	if(result == JOptionPane.OK_OPTION){
-        	    fileManager.quitaUsuario(x);
-        	    comboUsuarios.removeItemAt(x);
-        	    comboRecuperar.removeItemAt(x);
-                    auxiliar++;
-        	}
-		}}else{
-            JOptionPane.showMessageDialog(null, "Ya no hay usuarios para borrar", "Sin usuarios", JOptionPane.ERROR_MESSAGE);
+            int x = comboUsuarios.getSelectedIndex();
+            boolean trel;
+            int j=comboUsuarios.getItemCount();
+            if(auxiliar < j+1){
+                trel = false;
+            }else{
+                trel = true;
             }
+            if(!trel){
+                if(comboUsuarios.getItemCount()!= 0){        
+                    int result = JOptionPane.showConfirmDialog(null, "Esta seguro?", "InfoBox: " + "confirmar", JOptionPane.OK_CANCEL_OPTION);
+                    if(result == JOptionPane.OK_OPTION){
+                        fileManager.quitaUsuario(x);
+                        comboUsuarios.removeItemAt(x);
+                        comboRecuperar.removeItemAt(x);
+                        auxiliar++;
+                    }
 		}
-		recargaCombo(false);
+            }else{
+                JOptionPane.showMessageDialog(null, "Ya no hay usuarios para borrar", "Sin usuarios", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        recargaCombo(false);
 		
     }//GEN-LAST:event_EliminarUsuarioActionPerformed
 
@@ -423,23 +411,21 @@ public class ModAdmin extends javax.swing.JFrame {
             }
         else
             us = fileManager.getUsuarios();
-
-		if(fileManager.getUsuarios().length == 0){
-			comboUsuarios.removeAllItems();
-			comboRecuperar.removeAllItems();
-			comboUsuarios.addItem("no hay usuarios");
-			comboRecuperar.addItem("no hay usuarios");
-		}else{
-			comboUsuarios.removeAllItems();
-			comboRecuperar.removeAllItems();
-
-        for (Usuario u : us) {
-            comboUsuarios.addItem(u.getNombreUsuario());
+        if(fileManager.getUsuarios().length == 0){
+            comboUsuarios.removeAllItems();
+            comboRecuperar.removeAllItems();
+            comboUsuarios.addItem("no hay usuarios");
+            comboRecuperar.addItem("no hay usuarios");
+        }else{
+            comboUsuarios.removeAllItems();
+            comboRecuperar.removeAllItems();
+            for (Usuario u : us) {
+                comboUsuarios.addItem(u.getNombreUsuario());
+            }
+            for (Usuario u : us) {
+                comboRecuperar.addItem(u.getNombreUsuario());
+            }
         }
-        for (Usuario u : us) {
-            comboRecuperar.addItem(u.getNombreUsuario());
-        }
-		}
     }
 
 
