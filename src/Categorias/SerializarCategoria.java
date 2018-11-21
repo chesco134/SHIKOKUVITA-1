@@ -1,5 +1,6 @@
 package Categorias;
 
+import java.io.File;
 import org.json.JSONException;
 import org.json.JSONObject;
 
