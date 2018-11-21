@@ -58,8 +58,12 @@ public class InicioDeSesion extends javax.swing.JFrame {
 //        
         InputMap map = jTextField1.getInputMap(jTextField1.WHEN_FOCUSED);
         map.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+        map.put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT, Event.SHIFT_MASK), "null");
+        map.put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT, Event.CTRL_MASK), "null");
         InputMap map2 = jPasswordField1.getInputMap(jPasswordField1.WHEN_FOCUSED);
         map2.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+        map2.put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT, Event.SHIFT_MASK), "null");
+        map2.put(KeyStroke.getKeyStroke(KeyEvent.VK_INSERT, Event.CTRL_MASK), "null");
 //
     }
     
@@ -162,6 +166,11 @@ public class InicioDeSesion extends javax.swing.JFrame {
         jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTextField1MouseClicked(evt);
+            }
+        });
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userNameBoxActionPerformed(evt);
             }
         });
         jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -336,6 +345,10 @@ public class InicioDeSesion extends javax.swing.JFrame {
             doLogin();
         }
     }//GEN-LAST:event_jPasswordField1KeyTyped
+
+    private void userNameBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userNameBoxActionPerformed
+        
+    }//GEN-LAST:event_userNameBoxActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Salirboton;
