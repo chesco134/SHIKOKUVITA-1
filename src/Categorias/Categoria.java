@@ -4,20 +4,22 @@ package Categorias;
 public class Categoria 
 {
 	
-	private String nombreCategoria;
+    private String nombreCategoria;
+    private String descCategoria;
 
-	public Categoria(String nombreCategoria) {
-		this.nombreCategoria = nombreCategoria;
-	}
+    public String getNombreCategoria() {
+            return nombreCategoria;
+    }
 
+    public void setNombreCategoria(String nombreCategoria) {
+            this.nombreCategoria = nombreCategoria;
+    }
 
-	public String getNombreCategoria() {
-		return nombreCategoria;
-	}
+    public String getDescCategoria() {
+        return descCategoria;
+    }
 
-	public void setNombreCategoria(String nombreCategoria) {
-		this.nombreCategoria = nombreCategoria;
-	}
-
-	
+    public void setDescCategoria(String descCategoria) {
+        this.descCategoria = descCategoria;
+    } 
 }

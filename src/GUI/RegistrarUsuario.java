@@ -337,8 +337,12 @@ public class RegistrarUsuario extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String userName = jTextField1.getText();
+        if(fileManager.getUserByName(userName) != null){
+            JOptionPane.showMessageDialog(this, "Nombre de usuario ya está en uso.", "Error nombre de Usuario", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         String pass;
-		boolean privilegio;
+        boolean privilegio;
         if((pass = new String(jPasswordField1.getPassword())).equals(new String(jPasswordField2.getPassword()))){
             if( pass.matches(".*[a-zñ].*")
                     && pass.matches(".*[A-ZÑ].*")

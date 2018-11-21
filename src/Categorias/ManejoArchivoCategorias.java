@@ -16,8 +16,7 @@ public class ManejoArchivoCategorias {
 	java.util.List<Categoria> listaCategoria;
 	
     public ManejoArchivoCategorias(){
-		listaCategoria = new java.util.ArrayList<>();
-                
+        listaCategoria = new java.util.ArrayList<>();
     }
     
     public Categoria[] recuperaCategorias(String nombreArchivo){
@@ -52,16 +51,16 @@ public class ManejoArchivoCategorias {
     }
     
     public void quitaCategorias(String nombreCategoria){
-		ArrayList <Categoria> cate = new ArrayList<>();
+        ArrayList <Categoria> cate = new ArrayList<>();
         for(Categoria categoria : listaCategoria){
            if(categoria.getNombreCategoria().equals(nombreCategoria))
 				cate.add(categoria);
-		}
-		listaCategoria.removeAll(cate);
-                //listaCategoria.remove(categoria);
-			
+        }
+        listaCategoria.removeAll(cate);
+        //listaCategoria.remove(categoria);	
     }
-	public boolean checkCategoria(String categoria,boolean jajatl){
+    
+    public boolean checkCategoria(String categoria, boolean jajatl){
         for(Categoria categoriia : listaCategoria){
             if(categoria.equalsIgnoreCase(categoriia.getNombreCategoria())){
                 jajatl = false;

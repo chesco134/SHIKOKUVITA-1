@@ -21,7 +21,10 @@ public class Usuario {
     public String getPass(){
         return pass;
     }
-	public boolean getPrivilegio(){
-		return privilegio;
-	}
+    public boolean getPrivilegio(){
+            return privilegio;
+    }
+    public void setNewPasswd(String pass){
+        this.pass = pass;
+    }
 }

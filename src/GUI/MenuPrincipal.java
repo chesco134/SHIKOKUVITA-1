@@ -33,10 +33,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private ManejadorArchivoUsuarios fileManager;
     private ManejoArchivoCategorias categoriesManager;
-	private ArrayList<Desecho> cantidades = new ArrayList<>();
-	private String nombreBotonsel = "";
+    private ArrayList<Desecho> cantidades = new ArrayList<>();
+    private String nombreBotonsel = "";
 
-	private JToggleButton sel = null;
+    private JToggleButton sel = null;
     
     public MenuPrincipal(ManejadorArchivoUsuarios fileManager, ManejoArchivoCategorias categoriesManager){
         this.fileManager = fileManager;
@@ -52,26 +52,25 @@ public class MenuPrincipal extends javax.swing.JFrame {
 }
 
     private void doMachin() {
-
-		LectorArchivo la = new LectorArchivo();
-		try{
-		jTextField2.setTransferHandler(null);
-		}catch(NullPointerException ex){
-				ex.printStackTrace();
-		}
-
         initComponents();
+        LectorArchivo la = new LectorArchivo();
+        try{
+        jTextField2.setTransferHandler(null);
+        }catch(NullPointerException ex){
+                        ex.printStackTrace();
+        }
+
         setIconImage(new ImageIcon(getClass().getResource("/Imágenes/logo.PNG")).getImage());
         int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
-		int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
-		this.setBounds((ancho / 2) - (this.getWidth() / 2),  (alto / 2) - (this.getHeight() / 2),1054 , 612);
-		//jPanel1.setBackground(new java.awt.Color(0, 102, 0));
+        int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
+        this.setBounds((ancho / 2) - (this.getWidth() / 2),  (alto / 2) - (this.getHeight() / 2),1054 , 612);
+        //jPanel1.setBackground(new java.awt.Color(0, 102, 0));
         jPanel1.setToolTipText(null);
-		jPanel2.setToolTipText(null);
-		jPanel3.setToolTipText(null);
+        jPanel2.setToolTipText(null);
+        jPanel3.setToolTipText(null);
 
         //jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-		//jPanel2.setPreferredSize(new Dimension(847, 574));
+        //jPanel2.setPreferredSize(new Dimension(847, 574));
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jLabel1.setText("¿Cómo calculo mis residuos con Shikoku Vita?");
@@ -80,12 +79,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jLabel2.setText("Ingresa la cantidad de basura que generaste");
 
-		buttonGroup1.add(kg);
-		buttonGroup1.add(gramos);
+        buttonGroup1.add(kg);
+        buttonGroup1.add(gramos);
 
-		setInvisibleInicio();
-		
-		Desecho des = new Desecho("",0,false);
+        setInvisibleInicio();
+
+        Desecho des = new Desecho("",0,false);
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);

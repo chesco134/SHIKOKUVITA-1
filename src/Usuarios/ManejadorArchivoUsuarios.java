@@ -21,6 +21,13 @@ public class ManejadorArchivoUsuarios {
         usuarios = new java.util.ArrayList<>();
     }
     
+    public Usuario getUserByName(String userName){
+        for(Usuario user : usuarios)
+            if(userName.equals(user.getNombreUsuario()))
+                return user;
+        return null;
+    }
+    
     public Usuario[] recuperaUsuarios(String nombreArchivo){
         if(usuarios.isEmpty())
             try(java.io.BufferedReader br = new java.io.BufferedReader(new java.io.FileReader(new java.io.File(nombreArchivo)))){
