@@ -83,10 +83,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         setInvisibleInicio();
         Desecho des = new Desecho("",0,false);
         jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
+		jTextArea1.setWrapStyleWord(true);
+        //jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
+        //jTextArea1.setRows(5);
         jTextArea1.setText(la.LectorArchivoLinea(new File("src/Archivos/Introduccion/introduccion.txt")));
         jScrollPane1.add(jTextArea1);
         jScrollPane1.setViewportView(jTextArea1);
@@ -159,9 +160,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         jScrollPane1.setWheelScrollingEnabled(false);
 
-        jTextArea1.setBackground(new java.awt.Color(255, 255, 255));
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
+        jTextArea1.setFocusable(false);
         jScrollPane1.setViewportView(jTextArea1);
 
         jLabel2.setText("jLabel2");
