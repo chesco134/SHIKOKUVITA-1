@@ -285,12 +285,15 @@ public class ModAdmin extends javax.swing.JFrame {
     private void AgregarCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AgregarCategoriaMouseClicked
 		String str = agregarCategorias.getText();
                 boolean trel = true;
+                Categoria cat;
                 trel = categoriesManager.checkCategoria(str, trel);
 		if(!str.equals("")){
                     if(trel){
-			categoriesManager.agregarCategoria(new Categoria(str));
-			recargarCategoria();}
-                    else{
+                        cat = new Categoria();
+                        cat.setNombreCategoria(str);
+			categoriesManager.agregarCategoria(cat);
+			recargarCategoria();
+                    }else{
                         JOptionPane.showMessageDialog(null,"No puede haber categorias iguales.","Aviso",JOptionPane.INFORMATION_MESSAGE);
                     }
 		}else{
@@ -316,42 +319,43 @@ public class ModAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_EliminarUsuarioMouseClicked
 
     private void RecuperarContrasenaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RecuperarContrasenaMouseClicked
-		if(fileManager.getUsuarios().length == 0){
+        if(fileManager.getUsuarios().length == 0){
             JOptionPane.showMessageDialog(this, "No hay usuarios", "Falta de usuarios", JOptionPane.ERROR_MESSAGE);
-		}else{
-        int x = comboRecuperar.getSelectedIndex();
-        String newPass="";
-        boolean trul = true;
-        Usuario[] us = null;
-        try {
-            us = fileManager.recuperaUsuarios(URLDecoder.decode(ManejadorArchivoUsuarios.class.getResource("/shikokuvita/forbiddenmemories").getFile(), "UTF-8"));
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(ModAdmin.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        String user = us[x].getNombreUsuario();
-        boolean priv = us[x].getPrivilegio();
-        String passwd = JOptionPane.showInputDialog(null, "Ingrese la nueva contrasena", "Recuperar contrasena", JOptionPane.QUESTION_MESSAGE);
-        if(passwd != null){
-            newPass = passwd;
-            trul = true;
         }else{
-            trul = false;
+            int x = comboRecuperar.getSelectedIndex();
+            String newPass="";
+            boolean trul = true;
+            Usuario[] us = null;
+            try {
+                us = fileManager.recuperaUsuarios(URLDecoder.decode(ManejadorArchivoUsuarios.class.getResource("/shikokuvita/forbiddenmemories").getFile(), "UTF-8"));
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(ModAdmin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            String user = us[x].getNombreUsuario();
+            boolean priv = us[x].getPrivilegio();
+            String passwd = JOptionPane.showInputDialog(null, "Ingrese la nueva contrasena", "Recuperar contrasena", JOptionPane.QUESTION_MESSAGE);
+            if(passwd != null){
+                newPass = passwd;
+                trul = true;
+            }else{
+                trul = false;
+            }
+            if(trul){
+                if (newPass.matches(".*[a-zñ].*")
+                        && newPass.matches(".*[A-ZÑ].*")
+                        && newPass.matches(".*[0-9].*")
+                        && newPass.matches(".*[^A-Za-zñÑ0-9 ].*")
+                        && newPass.length() > 4){
+                    Usuario usr = fileManager.getUserByName(user);
+                    usr.setNewPasswd(newPass);
+                    JOptionPane.showMessageDialog(null, "La nueva contrasena es: " + passwd, "InfoBox: " + "confirmar", JOptionPane.OK_OPTION);
+                } else {
+                    JOptionPane.showMessageDialog(this, "La contraseña es débil, debe tener al menos una letra mayúscula, una minúscula, un número, un símbolo y mínimo 5 caracteres.", "Contraseña Débil", JOptionPane.ERROR_MESSAGE);
+                }
+            }else{
+                JOptionPane.showMessageDialog(this, "Cancelado.", "Cancelado", JOptionPane.ERROR_MESSAGE);
+            }
         }
-        if(trul){
-        if (newPass.matches(".*[a-zñ].*")
-                && newPass.matches(".*[A-ZÑ].*")
-                && newPass.matches(".*[0-9].*")
-                && newPass.matches(".*[^A-Za-zñÑ0-9 ].*")
-                && newPass.length() > 4){
-            fileManager.quitaUsuario(x);
-            fileManager.agregarusuario(new Usuario(user, new MD5HAsh().makeHash(passwd), priv));
-            JOptionPane.showMessageDialog(null, "La nueva contrasena es: " + passwd, "InfoBox: " + "confirmar", JOptionPane.OK_OPTION);
-        } else {
-            JOptionPane.showMessageDialog(this, "La contraseña es débil, debe tener al menos una letra mayúscula, una minúscula, un número, un símbolo y mínimo 5 caracteres.", "Contraseña Débil", JOptionPane.ERROR_MESSAGE);
-        }}else{
-            JOptionPane.showMessageDialog(this, "Cancelado.", "Cancelado", JOptionPane.ERROR_MESSAGE);
-        }
-		}
     }//GEN-LAST:event_RecuperarContrasenaMouseClicked
 
     private void CategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CategoriasActionPerformed
