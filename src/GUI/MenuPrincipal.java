@@ -21,6 +21,10 @@ import Categorias.*;
 import Desecho.Desecho;
 import java.awt.Event;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -414,8 +418,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
         }else{
             jButton10.setVisible(false);
         }
-        System.out.println(cantidades.size());
-        System.out.println(categoriesManager.getUsuarios().length);
         if(texto.equals("")){
             JOptionPane.showMessageDialog(this, "No hay ningun valor seleccionado", "Falta de valor", JOptionPane.ERROR_MESSAGE);
         }else{
@@ -486,9 +488,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
             LectorArchivo la = new LectorArchivo();
             Random rn = new Random();
             int rand = rn.nextInt(10 - 1 + 1) + 1;
+			String dirArchivo = "src/Archivos/DatosCuriosos/" + rand + ".txt";
             if(currentCategory.getDescCategoria() == null || "".equals(currentCategory.getDescCategoria()))
-               currentCategory.setDescCategoria(la.LectorArchivoLinea(new File("src/Archivos/DatosCuriosos/" + rand + ".txt")));
-            button.addActionListener(new MyActionListener(currentCategory.getDescCategoria()));
+               currentCategory.setDescCategoria(dirArchivo);
+            button.addActionListener(new MyActionListener(dirArchivo));
             bg.add(button);
             categorias.add(button, gb);
         }
@@ -515,7 +518,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
         public void actionPerformed(ActionEvent evt){
             JToggleButton toggled = (JToggleButton) evt.getSource();
             if(!nombreBotonsel.equals(toggled.getActionCommand())){
-                jTextArea1.setText(description);
+				FileReader reader;
+				try {
+					reader = new FileReader(new File(description));
+					BufferedReader br = new BufferedReader(reader);
+					jTextArea1.read(br, null);
+				} catch (FileNotFoundException ex) {
+					Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+				} catch (IOException ex) {
+					Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+				}
                 gramos.setSelected(true);
                 setVisibleInicio();
                 nombreBotonsel = toggled.getActionCommand();
