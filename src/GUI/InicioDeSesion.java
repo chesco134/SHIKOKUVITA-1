@@ -275,6 +275,20 @@ public class InicioDeSesion extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         Usuario usuarioActual;
+		  if (jTextField1.getText().isEmpty())
+            {
+                jTextField1.requestFocus();// regresa el foco al jtext de la boleta
+				JOptionPane.showMessageDialog(null, "No puedes dejar ningun campo en blanco","Formato Incorrecto", JOptionPane.ERROR_MESSAGE);
+            }
+            else 
+            {
+		     if (jPasswordField1.getText().isEmpty())
+            {
+                jPasswordField1.requestFocus();// regresa el foco al jtext de la boleta
+				JOptionPane.showMessageDialog(null, "No puedes dejar ningun campo en blanco","Formato Incorrecto", JOptionPane.ERROR_MESSAGE);
+            }
+            else 
+            {
         if(( usuarioActual = checkUser(jTextField1.getText(), new String(jPasswordField1.getPassword()))) != null){
             this.dispose();
             if(usuarioActual.getPrivilegio()){
@@ -292,6 +306,14 @@ public class InicioDeSesion extends javax.swing.JFrame {
                 e.printStackTrace();
             }
         }
+		else
+		{
+				jPasswordField1.requestFocus();// regresa el foco al jtext de la boleta
+				JOptionPane.showMessageDialog(null, "El usuario o contraseña son incorrectos","Formato Incorrecto", JOptionPane.ERROR_MESSAGE);	
+				jPasswordField1.setText("");
+		}
+			}
+			}
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void SalirbotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirbotonActionPerformed

@@ -2,12 +2,9 @@
 package GUI;
 
 import Desecho.Desecho;
-import LogicaGUI.MenuPrincipalLog;
 import Usuarios.ManejadorArchivoUsuarios;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.LayoutManager;
 import java.util.ArrayList;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JPanel;
@@ -16,6 +13,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
+import java.lang.Math;
 
 /**
  *
@@ -43,6 +41,7 @@ public class Estadistica extends javax.swing.JFrame {
 		double cantidad = 0d;
 		int periodoTiempo = 7;
 		int j = 0;
+		boolean primeravez = true;
 
 		for(int i = 0; i< periodoTiempo; i++){
 			j++;
@@ -53,14 +52,20 @@ public class Estadistica extends javax.swing.JFrame {
 			}else{
 				cantidad = d.getCantidad();
 			}
+			if(!primeravez){
+			cantidad = (Math.random() * ((cantidad + 200 - cantidad) + 1)) + cantidad;
+			}
 			datasetgrafica.addValue(cantidad, d.getCategoria(), "dia: " + j);
-				
+
+			primeravez = false;
 			}
 		}
 	}
     private void doMachin() {
         initComponents();
 		JPanel panel = new JPanel();
+
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 20)); // NOI18N
 
         int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
 		int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -74,10 +79,10 @@ public class Estadistica extends javax.swing.JFrame {
 		this.setPreferredSize(new Dimension(900, 720));
 		this.setMinimumSize(new Dimension(900, 720));
 
-		for(Desecho c: des){
-			jComboBox1.addItem(c.getCategoria());
-		}
-		jComboBox1.addItem("Todos");
+	//	for(Desecho c: des){
+	//		jComboBox1.addItem(c.getCategoria());
+	//	}
+	//	jComboBox1.addItem("Todos");
 
         grupo.add(op1);
         grupo.add(op2);
@@ -91,16 +96,25 @@ public class Estadistica extends javax.swing.JFrame {
         //setSize(300, 120);
 		generardataset();
 		mostrarGrafica();
+		int total = 0 ;
+		for(Desecho d: des){
+			total += d.getCantidad();
+		}
+		if(total >= 1400){
+			jLabel1.setText("generas demasiada basura al dia");
+		}else if(total >= 1000){
+			jLabel1.setText("Vas bien, pero puede mejorar");
+		}else if(total < 1000){
+			jLabel1.setText("bien! Sigue asi");
+		}
         setVisible(true);
 
 		
     }
 	private void mostrarGrafica(){
-		String periodoTiempo= "este es el periodo de tiempo";
+		String periodoTiempo= "semana";
 
-        MenuPrincipalLog mpl = new MenuPrincipalLog();
         grafica.setLayout(new BorderLayout());
-           // ChartPanel panel = mpl.generateChart("este es el titulo","prueba","no se que estoy haciendo",periodoTiempo,datasetgrafica);
 		   JFreeChart panela = ChartFactory.createBarChart("Basura generada", periodoTiempo, "gramos", datasetgrafica);
 		   ChartPanel panel = new ChartPanel(panela);
 
@@ -123,32 +137,27 @@ public class Estadistica extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jButton9 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
         grafica = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Grafica");
-        setBackground(new java.awt.Color(102, 153, 0));
+        setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(102, 153, 0));
         setLocation(new java.awt.Point(0, 0));
         setPreferredSize(new java.awt.Dimension(1080, 720));
         setResizable(false);
 
-        jButton9.setText("Regresar al menú principal");
+        jButton9.setText("Cerrar");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton9ActionPerformed(evt);
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         jLabel1.setText("Informacion referente a la estadistica");
 
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-
+        grafica.setForeground(new java.awt.Color(255, 255, 255));
         grafica.setMinimumSize(new java.awt.Dimension(400, 400));
         grafica.setPreferredSize(new java.awt.Dimension(400, 400));
 
@@ -174,13 +183,11 @@ public class Estadistica extends javax.swing.JFrame {
                         .addComponent(grafica, javax.swing.GroupLayout.DEFAULT_SIZE, 1056, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(69, 69, 69)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(55, 55, 55)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
+                        .addGap(16, 16, 16)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 632, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
                         .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(91, Short.MAX_VALUE))))
+                        .addGap(98, 98, 98))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,7 +196,6 @@ public class Estadistica extends javax.swing.JFrame {
                 .addComponent(grafica, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton9))
                 .addGap(43, 43, 43))
@@ -199,19 +205,14 @@ public class Estadistica extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
+		this.dispose();
     }//GEN-LAST:event_jButton9ActionPerformed
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel grafica;
     private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 

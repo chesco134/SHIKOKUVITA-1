@@ -54,6 +54,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void doMachin() {
 
 		LectorArchivo la = new LectorArchivo();
+		try{
+		jTextField2.setTransferHandler(null);
+		}catch(NullPointerException ex){
+				ex.printStackTrace();
+		}
 
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/Imágenes/logo.PNG")).getImage());
@@ -94,6 +99,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
 		InputMap map = jTextField2.getInputMap(jTextField2.WHEN_FOCUSED);
         map.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+		map.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.SHIFT_MASK), "null");
       
     }
 
@@ -391,7 +397,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void jButton10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10MouseClicked
 		Estadistica es = new Estadistica(fileManager, cantidades);
-		this.dispose();
+		//this.dispose();
 		es.setVisible(true);
 
     }//GEN-LAST:event_jButton10MouseClicked
@@ -425,7 +431,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 			}else{
 				cantidades.add(des);
 			}
-		}
+			}
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
