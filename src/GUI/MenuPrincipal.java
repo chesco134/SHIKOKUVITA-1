@@ -68,12 +68,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
         int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
         this.setBounds((ancho / 2) - (this.getWidth() / 2),  (alto / 2) - (this.getHeight() / 2),1054 , 612);
-        //jPanel1.setBackground(new java.awt.Color(0, 102, 0));
+
+				
         jPanel1.setToolTipText(null);
         jPanel2.setToolTipText(null);
         jPanel3.setToolTipText(null);
-        //jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        //jPanel2.setPreferredSize(new Dimension(847, 574));
         jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jLabel1.setText("¿Cómo calculo mis residuos con Shikoku Vita?");
         jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
@@ -375,8 +374,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_formComponentResized
 
     private void jButton10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10MouseClicked
-        Estadistica es = new Estadistica(fileManager, cantidades);
+        Estadistica es = new Estadistica(fileManager, cantidades,this);
         //this.dispose();
+		this.setVisible(false);
         es.setVisible(true);
     }//GEN-LAST:event_jButton10MouseClicked
 
