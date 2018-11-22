@@ -27,11 +27,19 @@ public class ModAdmin extends javax.swing.JFrame {
 
 
     private ManejadorArchivoUsuarios fileManager;
+    private ManejadorArchivoUsuarios bkpFileManager;
     private ManejoArchivoCategorias categoriesManager;
+    private ManejoArchivoCategorias bkpCategoriesManager;
     private int auxiliar = 0;
 	
     public ModAdmin(ManejadorArchivoUsuarios fileManager, ManejoArchivoCategorias categoriesManager){
         this.fileManager = fileManager;
+        bkpFileManager = new ManejadorArchivoUsuarios();
+        bkpCategoriesManager = new ManejoArchivoCategorias();
+        for(Usuario usuario : fileManager.getUsuarios())
+            bkpFileManager.agregarusuario(usuario);
+        for(Categoria categoria : categoriesManager.getUsuarios())
+            bkpCategoriesManager.agregarCategoria(categoria);
         this.categoriesManager = categoriesManager;
         try{
             this.categoriesManager
@@ -65,6 +73,8 @@ public class ModAdmin extends javax.swing.JFrame {
             try {
                 fileManager.guardaUsuarios(URLDecoder.decode(getClass().getResource("/shikokuvita/forbiddenmemories").getFile(),"UTF-8"));
                 categoriesManager.guardaCategorias(URLDecoder.decode(getClass().getResource("/shikokuvita/Categorias").getFile(),"UTF-8"));
+                bkpFileManager = fileManager;
+                bkpCategoriesManager = categoriesManager;
             } catch (UnsupportedEncodingException ex) {
                 Logger.getLogger(ModAdmin.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -255,11 +265,12 @@ public class ModAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CerrarSesionMouseClicked
-        InicioDeSesion ids = new InicioDeSesion(fileManager, categoriesManager);
+        InicioDeSesion ids = new InicioDeSesion(bkpFileManager, bkpCategoriesManager);
         this.dispose();
         ids.setVisible(true);
     }//GEN-LAST:event_CerrarSesionMouseClicked
-	private void recargarCategoria(){
+	
+    private void recargarCategoria(){
         if(categoriesManager.getUsuarios().length == 0){
 			Categorias.removeAllItems();
 			Categorias.addItem("no hay categorias");
@@ -268,7 +279,7 @@ public class ModAdmin extends javax.swing.JFrame {
             for(Categoria categoria : categoriesManager.getUsuarios())
                 Categorias.addItem(categoria.getNombreCategoria());
 		}
-	}
+    }
 
     private void AgregarCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AgregarCategoriaMouseClicked
 		String str = agregarCategorias.getText();
