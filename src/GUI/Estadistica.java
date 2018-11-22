@@ -3,9 +3,12 @@ package GUI;
 
 import Desecho.Desecho;
 import Usuarios.ManejadorArchivoUsuarios;
+import com.sun.org.apache.xpath.internal.axes.WalkerFactory;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JPanel;
@@ -21,7 +24,7 @@ import java.lang.Math;
  * @author Josué
  */
 
-public class Estadistica extends javax.swing.JFrame {
+public class Estadistica extends javax.swing.JFrame{
 	
     private ManejadorArchivoUsuarios fileManager;
 	private MenuPrincipal men;
@@ -29,7 +32,7 @@ public class Estadistica extends javax.swing.JFrame {
     private DefaultCategoryDataset datasetgrafica  = new DefaultCategoryDataset();
 	private int periodo = 0;
 	private String periodoTiempo;
-    
+
     public Estadistica(ManejadorArchivoUsuarios fileManager, ArrayList<Desecho> des,MenuPrincipal men){
         this.fileManager = fileManager;
         this.des = des;
@@ -38,6 +41,31 @@ public class Estadistica extends javax.swing.JFrame {
     }
     
     private void doMachin() {
+		getPeriodo();
+		configurarVentana();
+
+        int total = 0 ;
+        for(Desecho d : des){
+            total += d.getCantidad();
+        }
+
+		//faltan
+        if(total >= 1400){
+                jLabel1.setText("generas demasiada basura al dia");
+        }else if(total >= 1000){
+                jLabel1.setText("Vas bien, pero puede mejorar");
+        }else if(total < 1000){
+                jLabel1.setText("bien! Sigue asi");
+        }
+
+
+        setVisible(true);
+
+		generardataset(periodo);
+		mostrarGrafica(periodoTiempo);
+    }
+	private void configurarVentana(){
+
         initComponents();
         JPanel panel = new JPanel();
         jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 20)); // NOI18N
@@ -56,37 +84,34 @@ public class Estadistica extends javax.swing.JFrame {
         getContentPane().add(panel);
         getContentPane().setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        //setSize(300, 120);
-        int total = 0 ;
-        for(Desecho d : des){
-            total += d.getCantidad();
-        }
-
-		//faltan
-        if(total >= 1400){
-                jLabel1.setText("generas demasiada basura al dia");
-        }else if(total >= 1000){
-                jLabel1.setText("Vas bien, pero puede mejorar");
-        }else if(total < 1000){
-                jLabel1.setText("bien! Sigue asi");
-        }
+	}
 
 
-        setVisible(true);
+	private void getPeriodo(){
 
-		setPeriodo();
-		generardataset(periodo);
-		mostrarGrafica(periodoTiempo);
-    }
+		Object [] per = {"Corto","Mediano","Largo"};
+		JComboBox jcd = new JComboBox(per);
+
+		Object input = JOptionPane.showInputDialog(null,"Elige un plazo", "Seleccione un plazo",
+        JOptionPane.QUESTION_MESSAGE, null, per,
+        per[0]);
+
+		if(input == null || (input != null && ("".equals(input)))){
+			this.dispose();
+			men.setVisible(true);
+		}else{
+			setPeriodo(input);
+		}
+	}
     
-	private void setPeriodo(){
-		if(jComboBox1.getSelectedItem().equals("Corto")){
+	private void setPeriodo(Object str){
+		if(str.equals("Corto")){
 			periodo = 7;
 			periodoTiempo = "Plazo Corto";
-		}else if(jComboBox1.getSelectedItem().equals("Mediano")){
+		}else if(str.equals("Mediano")){
 			periodo = 40;
 			periodoTiempo = "Plazo Mediano";
-		}else if(jComboBox1.getSelectedItem().equals("Largo")){
+		}else if(str.equals("Largo")){
 			periodo = 365;
 			periodoTiempo = "Plazo Largo";
 		}
@@ -172,7 +197,7 @@ public class Estadistica extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Seleccionar periodo");
+        jButton1.setText("Seleccionar categoria");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -198,7 +223,7 @@ public class Estadistica extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 632, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(72, Short.MAX_VALUE))))
+                        .addContainerGap(60, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,9 +258,6 @@ public class Estadistica extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-		setPeriodo();
-		System.out.println(periodo);
 		
 		generardataset(periodo);
 		mostrarGrafica(periodoTiempo);
