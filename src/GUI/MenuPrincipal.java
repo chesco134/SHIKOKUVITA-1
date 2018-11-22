@@ -70,7 +70,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
         this.setBounds((ancho / 2) - (this.getWidth() / 2),  (alto / 2) - (this.getHeight() / 2),1054 , 612);
 			jTextField2.setDocument
-			(new JTextFieldLimit(9));
+			(new JTextFieldLimit(6));
 
 
 				
@@ -217,6 +217,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jButton10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton10MouseClicked(evt);
+            }
+        });
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
             }
         });
 
@@ -381,6 +386,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_formComponentResized
 
     private void jButton10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10MouseClicked
+		this.setVisible(false);
         Estadistica es = new Estadistica(fileManager, cantidades,this);
 		this.setVisible(false);
         es.setVisible(true);
@@ -457,6 +463,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton10ActionPerformed
     
     private boolean botonABooleano(){
         if(gramos.isSelected()){
