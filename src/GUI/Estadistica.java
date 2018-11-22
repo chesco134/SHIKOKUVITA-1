@@ -111,7 +111,7 @@ public class Estadistica extends javax.swing.JFrame{
 			periodo = 7;
 			periodoTiempo = "Plazo Corto";
 		}else if(str.equals("Mediano")){
-			periodo = 40;
+			periodo = 49;
 			periodoTiempo = "Plazo Mediano";
 		}else if(str.equals("Largo")){
 			periodo = 365;
@@ -131,21 +131,36 @@ public class Estadistica extends javax.swing.JFrame{
         	        }else{
         	            cantidad = d.getCantidad() * 1000;
         	        }
-			//		if(!primeravez){
-			//		Random r = new Random();
-			//		int low = cantidad - 100;
-			//		int high = cantidad + 200;
-			//		cantidad = r.nextInt(high-low) + low;
-			//		}
         	        datasetgrafica.addValue(cantidad * j / 1000, d.getCategoria(), "dia: " + j);
         	    }
-			//	primeravez = false;
         	}
 
-		}else if(periodoTiempo == 40){
+		}else if(periodoTiempo == 49){
 
+			for(int i = 0; i< 7; i++){
+        	    j++;
+        	    for(Desecho d: des){
+        	        if(d.isTipoMasa()){
+        	            cantidad = (d.getCantidad());
+        	        }else{
+        	            cantidad = d.getCantidad() * 1000;
+        	        }
+        	        datasetgrafica.addValue(cantidad * (j * 7) / 1000, d.getCategoria(), "semana: " + j);
+        	    }
+        	}
 		
 		}else if(periodoTiempo == 365){
+			for(int i = 0; i<12; i++){
+        	    j++;
+        	    for(Desecho d: des){
+        	        if(d.isTipoMasa()){
+        	            cantidad = (d.getCantidad());
+        	        }else{
+        	            cantidad = d.getCantidad() * 1000;
+        	        }
+        	        datasetgrafica.addValue(cantidad * ((j * 7) * 4) / 1000, d.getCategoria(), "mes: " + j);
+        	    }
+        	}
 			
 		}
 
@@ -172,7 +187,7 @@ public class Estadistica extends javax.swing.JFrame{
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Grafica");
-        setBackground(new java.awt.Color(255, 255, 255));
+        setBackground(new java.awt.Color(51, 51, 51));
         setForeground(new java.awt.Color(102, 153, 0));
         setLocation(new java.awt.Point(0, 0));
         setPreferredSize(new java.awt.Dimension(1080, 720));
