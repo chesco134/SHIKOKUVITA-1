@@ -3,13 +3,10 @@ package GUI;
 
 import Desecho.Desecho;
 import Usuarios.ManejadorArchivoUsuarios;
-import com.sun.org.apache.xpath.internal.axes.WalkerFactory;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Panel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.function.Predicate;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JPanel;
 import javax.swing.*;
@@ -17,8 +14,6 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
-import java.lang.Math;
-import java.util.Random;
 
 /**
  *
@@ -33,6 +28,9 @@ public class Estadistica extends javax.swing.JFrame{
     private DefaultCategoryDataset datasetgrafica  = new DefaultCategoryDataset();
 	private int periodo = 0;
 	private String periodoTiempo;
+	private JFreeChart panela = null;
+	private ChartPanel panel = null;
+
 
     public Estadistica(ManejadorArchivoUsuarios fileManager, ArrayList<Desecho> des,MenuPrincipal men){
         this.fileManager = fileManager;
@@ -44,6 +42,7 @@ public class Estadistica extends javax.swing.JFrame{
     private void doMachin() {
 		getPeriodo();
 		configurarVentana();
+		llenarCombo();
 
         int total = 0 ;
         for(Desecho d : des){
@@ -52,18 +51,16 @@ public class Estadistica extends javax.swing.JFrame{
 
 		//faltan
         if(total >= 1400){
-                jLabel1.setText("generas demasiada basura al dia");
+                jLabel1.setText("generas demasiada basura al dia (" + total + ")");
         }else if(total >= 1000){
-                jLabel1.setText("Vas bien, pero puede mejorar");
+                jLabel1.setText("Vas bien, pero puede mejorar (" + total + ")");
         }else if(total < 1000){
-                jLabel1.setText("bien! Sigue asi");
+                jLabel1.setText("bien! Sigue asi (" + total + ")");
         }
 
-
         setVisible(true);
-
 		generardataset(periodo);
-		mostrarGrafica(periodoTiempo);
+		mostrarGrafica(periodoTiempo,datasetgrafica);
     }
 	private void configurarVentana(){
 
@@ -81,15 +78,18 @@ public class Estadistica extends javax.swing.JFrame{
         this.setPreferredSize(new Dimension(900, 720));
         this.setMinimumSize(new Dimension(900, 720));
 
-
         getContentPane().add(panel);
         getContentPane().setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-
+	private void llenarCombo(){
+		jComboBox1.addItem("Todos");
+		for(Desecho d:des){
+			jComboBox1.addItem(d.getCategoria());
+		}
+	}
 
 	private void getPeriodo(){
-		
 
 		String [] options = {"OK"};
 		Object [] per = {"Corto","Mediano","Largo"};
@@ -118,6 +118,21 @@ public class Estadistica extends javax.swing.JFrame{
 			periodoTiempo = "Plazo Largo";
 		}
 	}
+	private DefaultCategoryDataset formatdataset(String categoria){
+		
+    DefaultCategoryDataset formatgrafica  = datasetgrafica;
+	
+	int posicion = datasetgrafica.getRowIndex(categoria);
+	//Comparable rowKey = datasetgrafica.getRowKey(posicion);
+
+	for(int i = 0;i<datasetgrafica.getRowCount() ;i++){
+		if(!(i == posicion)){
+			formatgrafica.removeRow(i);
+		}
+	}
+	return formatgrafica;
+	}
+
     private void generardataset(int periodoTiempo){
         int cantidad = 0;
         int j = 0;
@@ -166,13 +181,17 @@ public class Estadistica extends javax.swing.JFrame{
 
     }
     
-    private void mostrarGrafica(String periodoTiempo){
+    private void mostrarGrafica(String periodoTiempo,DefaultCategoryDataset dcd){
         grafica.setLayout(new BorderLayout());
-        JFreeChart panela = ChartFactory.createBarChart("Basura generada", periodoTiempo, "kilogramos", datasetgrafica);
-        ChartPanel panel = new ChartPanel(panela);
+        panela = ChartFactory.createBarChart("Basura generada", periodoTiempo, "kilogramos", dcd);
+		panel = new ChartPanel(panela);
         panel.setSize(600, 500);
         grafica.add(panel,0);
     }
+//			private void actualizar(DefaultCategoryDataset dcs){
+//		
+//				grafica().getPlot.setDataset(dcs);
+//			}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -218,7 +237,6 @@ public class Estadistica extends javax.swing.JFrame{
             .addGap(0, 508, Short.MAX_VALUE)
         );
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Corto", "Mediano", "Largo" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -243,11 +261,11 @@ public class Estadistica extends javax.swing.JFrame{
                         .addComponent(grafica, javax.swing.GroupLayout.DEFAULT_SIZE, 1435, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
+                        .addGap(19, 19, 19)
                         .addComponent(jButton1)
-                        .addGap(66, 66, 66)
+                        .addGap(18, 18, 18)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(78, 78, 78)
+                        .addGap(142, 142, 142)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 632, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -266,10 +284,10 @@ public class Estadistica extends javax.swing.JFrame{
                             .addComponent(jButton9))
                         .addGap(43, 43, 43))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
+                        .addGap(45, 45, 45)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
@@ -287,9 +305,13 @@ public class Estadistica extends javax.swing.JFrame{
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+		//generardataset(periodo);
+		//formatdataset(jComboBox1.getSelectedItem().toString());
+		//mostrarGrafica(periodoTiempo,formatdataset(jComboBox1.getSelectedItem().toString()));
+		//actualizar(formatdataset(jComboBox1.getSelectedItem().toString()));
+		//char
 		
-		generardataset(periodo);
-		mostrarGrafica(periodoTiempo);
+		
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
