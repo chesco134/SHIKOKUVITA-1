@@ -45,25 +45,25 @@ public class Desecho {
 		this.tipoMasa = tipoMasa;
 	}
 
-    @Override
-    public boolean equals(Object o) {
+	// @Override
+   	// public boolean equals(Object o) {
 
-        if (o == this) return true;
-        if (!(o instanceof Desecho)) {
-            return false;
-        }
+   	//     if (o == this) return true;
+   	//     if (!(o instanceof Desecho)) {
+   	//         return false;
+   	//     }
 
-        Desecho dese = (Desecho) o;
+   	//     Desecho dese = (Desecho) o;
 
-        return new EqualsBuilder()
-                .append(categoria, dese.categoria)
-                .isEquals();
-    }
+   	//     return new EqualsBuilder()
+   	//             .append(categoria, dese.categoria)
+   	//             .isEquals();
+   	// }
 
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(categoria)
-                .toHashCode();
-    }
+   	// @Override
+   	// public int hashCode() {
+   	//     return new HashCodeBuilder(17, 37)
+   	//             .append(categoria)
+   	//             .toHashCode();
+   	// }
 }
