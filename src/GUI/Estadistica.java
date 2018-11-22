@@ -18,6 +18,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.category.DefaultCategoryDataset;
 import java.lang.Math;
+import java.util.Random;
 
 /**
  *
@@ -117,25 +118,33 @@ public class Estadistica extends javax.swing.JFrame{
 		}
 	}
     private void generardataset(int periodoTiempo){
-        double cantidad = 0d;
+        int cantidad = 0;
         int j = 0;
         boolean primeravez = true;
-        for(int i = 0; i< periodoTiempo; i++){
-            j++;
-            for(Desecho d: des){
-                System.out.println(i);
-                if(!d.isTipoMasa()){
-                    cantidad = (d.getCantidad());
-                }else{
-                    cantidad = d.getCantidad() * 1000;
-                }
-                if(!primeravez){
-                    cantidad = (Math.random() * ((cantidad + 200 - cantidad) + 1)) + cantidad;
-                }
-                datasetgrafica.addValue(cantidad, d.getCategoria(), "dia: " + j);
-                primeravez = false;
-            }
-        }
+		if(periodoTiempo == 7){
+			for(int i = 0; i< periodoTiempo; i++){
+        	    j++;
+        	    for(Desecho d: des){
+        	        System.out.println(i);
+        	        if(!d.isTipoMasa()){
+        	            cantidad = (d.getCantidad());
+        	        }else{
+        	            cantidad = d.getCantidad() * 1000;
+        	        }
+        	        if(!primeravez){
+						
+						Random r = new Random();
+						int low = cantidad;
+						int high = cantidad + 100;
+						cantidad= r.nextInt(high-low) + low;
+        	        }
+        	        datasetgrafica.addValue(cantidad, d.getCategoria(), "dia: " + j);
+					primeravez = false;
+        	    }
+        	}
+
+		}
+
     }
     
     private void mostrarGrafica(String periodoTiempo){
