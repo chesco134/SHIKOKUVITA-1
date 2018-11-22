@@ -117,6 +117,11 @@ public class ModAdmin extends javax.swing.JFrame {
             }
         });
 
+        agregarCategorias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregarCategoriasActionPerformed(evt);
+            }
+        });
         agregarCategorias.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 agregarCategoriasKeyTyped(evt);
@@ -376,6 +381,10 @@ public class ModAdmin extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_agregarCategoriasKeyTyped
+
+    private void agregarCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarCategoriasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_agregarCategoriasActionPerformed
 
     private void recargaCombo(boolean fromFile){
         Usuario [] us = null;

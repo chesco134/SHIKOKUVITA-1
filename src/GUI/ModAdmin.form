@@ -198,6 +198,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="agregarCategorias">
           <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="agregarCategoriasActionPerformed"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="agregarCategoriasKeyTyped"/>
           </Events>
         </Component>
