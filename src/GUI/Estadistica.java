@@ -13,6 +13,7 @@ import javax.swing.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
@@ -30,6 +31,7 @@ public class Estadistica extends javax.swing.JFrame{
 	private String periodoTiempo;
 	private JFreeChart panela = null;
 	private ChartPanel panel = null;
+	private CategoryPlot cp = null;
 
 
     public Estadistica(ManejadorArchivoUsuarios fileManager, ArrayList<Desecho> des,MenuPrincipal men){
@@ -51,12 +53,13 @@ public class Estadistica extends javax.swing.JFrame{
 
 		//faltan
         if(total >= 1400){
-                jLabel1.setText("generas demasiada basura al dia (" + total + ")");
+                jLabel1.setText("generas demasiada basura al dia (" + total + ") g");
         }else if(total >= 1000){
-                jLabel1.setText("Vas bien, pero puede mejorar (" + total + ")");
+                jLabel1.setText("Vas bien, pero puede mejorar (" + total + ") g");
         }else if(total < 1000){
-                jLabel1.setText("bien! Sigue asi (" + total + ")");
+                jLabel1.setText("bien! Sigue asi (" + total + ") g");
         }
+		
 
         setVisible(true);
 		generardataset(periodo);
@@ -120,13 +123,19 @@ public class Estadistica extends javax.swing.JFrame{
 	}
 	private DefaultCategoryDataset formatdataset(String categoria){
 		
+		if(categoria.equals("Todos")){
+			return datasetgrafica;
+		}
     DefaultCategoryDataset formatgrafica  = datasetgrafica;
+	//datasetgrafica.clear();
 	
 	int posicion = datasetgrafica.getRowIndex(categoria);
 	//Comparable rowKey = datasetgrafica.getRowKey(posicion);
 
 	for(int i = 0;i<datasetgrafica.getRowCount() ;i++){
-		if(!(i == posicion)){
+		if(i == posicion){
+			//se mantiene
+		}else{
 			formatgrafica.removeRow(i);
 		}
 	}
@@ -180,10 +189,16 @@ public class Estadistica extends javax.swing.JFrame{
 		}
 
     }
+	private void actualizar(DefaultCategoryDataset x){
+		cp.setDataset(x);
+		panel.getChart().fireChartChanged();
+		panel.repaint();
+	}
     
     private void mostrarGrafica(String periodoTiempo,DefaultCategoryDataset dcd){
         grafica.setLayout(new BorderLayout());
         panela = ChartFactory.createBarChart("Basura generada", periodoTiempo, "kilogramos", dcd);
+		cp = (CategoryPlot) panel.getChart().getPlot();
 		panel = new ChartPanel(panela);
         panel.setSize(600, 500);
         grafica.add(panel,0);
@@ -310,8 +325,7 @@ public class Estadistica extends javax.swing.JFrame{
 		//mostrarGrafica(periodoTiempo,formatdataset(jComboBox1.getSelectedItem().toString()));
 		//actualizar(formatdataset(jComboBox1.getSelectedItem().toString()));
 		//char
-		
-		
+		actualizar(formatdataset(jComboBox1.getSelectedItem().toString()));
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
