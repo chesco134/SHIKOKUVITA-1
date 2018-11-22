@@ -17,7 +17,6 @@ import Categorias.*;
 import java.awt.Event;
 import java.awt.event.KeyEvent;
 import javax.swing.InputMap;
-import javax.swing.JFrame;
 import javax.swing.KeyStroke;
 
 /**
@@ -30,9 +29,6 @@ public class ModAdmin extends javax.swing.JFrame {
     private ManejadorArchivoUsuarios fileManager;
     private ManejoArchivoCategorias categoriesManager;
     private int auxiliar = 0;
-	/**
-	 * Creates new form ModAdmin
-	 */
 	
     public ModAdmin(ManejadorArchivoUsuarios fileManager, ManejoArchivoCategorias categoriesManager){
         this.fileManager = fileManager;
@@ -44,7 +40,6 @@ public class ModAdmin extends javax.swing.JFrame {
         }catch(UnsupportedEncodingException e){
             e.printStackTrace();
         }
-
         try {
                 fileManager.recuperarUsuarioActual(URLDecoder.decode(IniciarSesion.class.getResource("/shikokuvita/forbiddenmemories2").getFile(),"UTF-8"));
         } catch (UnsupportedEncodingException ex) {
@@ -58,15 +53,12 @@ public class ModAdmin extends javax.swing.JFrame {
             int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
             this.setBounds((ancho / 2) - (this.getWidth() / 2),  (alto / 2) - (this.getHeight() / 2),976,296);
             jPanel1.setToolTipText(null);
-			
 			agregarCategorias.setDocument
 			(new JTextFieldLimit(15));
             recargaCombo(true);
             recargarCategoria();
-//
-        InputMap map2 = agregarCategorias.getInputMap(agregarCategorias.WHEN_FOCUSED);
-        map2.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
-//
+		    InputMap map2 = agregarCategorias.getInputMap(agregarCategorias.WHEN_FOCUSED);
+    	    map2.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 	}
         
         private void guardarCambios(){
@@ -118,29 +110,13 @@ public class ModAdmin extends javax.swing.JFrame {
 
         jLabel4.setText("Seleccionar Categoria");
 
-        Categorias.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CategoriasActionPerformed(evt);
-            }
-        });
-
         EliminarCategoria.setText("Eliminar Categoria");
         EliminarCategoria.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 EliminarCategoriaMouseClicked(evt);
             }
         });
-        EliminarCategoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EliminarCategoriaActionPerformed(evt);
-            }
-        });
 
-        agregarCategorias.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                agregarCategoriasActionPerformed(evt);
-            }
-        });
         agregarCategorias.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 agregarCategoriasKeyTyped(evt);
@@ -279,17 +255,15 @@ public class ModAdmin extends javax.swing.JFrame {
         ids.setVisible(true);
     }//GEN-LAST:event_CerrarSesionMouseClicked
 	private void recargarCategoria(){
-            if(categoriesManager.getUsuarios().length == 0){
-				Categorias.removeAllItems();
-				Categorias.addItem("no hay categorias");
-            }else{
-				Categorias.removeAllItems();
-                for(Categoria categoria : categoriesManager.getUsuarios())
-                    Categorias.addItem(categoria.getNombreCategoria());
-        }
-
+        if(categoriesManager.getUsuarios().length == 0){
+			Categorias.removeAllItems();
+			Categorias.addItem("no hay categorias");
+        }else{
+			Categorias.removeAllItems();
+            for(Categoria categoria : categoriesManager.getUsuarios())
+                Categorias.addItem(categoria.getNombreCategoria());
+		}
 	}
-
 
     private void AgregarCategoriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AgregarCategoriaMouseClicked
 		String str = agregarCategorias.getText();
@@ -315,11 +289,10 @@ public class ModAdmin extends javax.swing.JFrame {
 		if(categoriesManager.getUsuarios().length == 0){
             JOptionPane.showMessageDialog(this, "No hay categorias", "Falta de categorias", JOptionPane.ERROR_MESSAGE);
 		}else{
-        //int selectedCat = Categorias.getSelectedIndex();
-        String nombreCategoria;
-        nombreCategoria = (String)Categorias.getSelectedItem();
-        categoriesManager.quitaCategorias(nombreCategoria);
-		Categorias.removeItemAt(Categorias.getSelectedIndex());
+			String nombreCategoria;
+        	nombreCategoria = (String)Categorias.getSelectedItem();
+        	categoriesManager.quitaCategorias(nombreCategoria);
+			Categorias.removeItemAt(Categorias.getSelectedIndex());
 		}
 		recargarCategoria();
     }//GEN-LAST:event_EliminarCategoriaMouseClicked
@@ -362,14 +335,6 @@ public class ModAdmin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_RecuperarContrasenaMouseClicked
 
-    private void CategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CategoriasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CategoriasActionPerformed
-
-    private void EliminarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarCategoriaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_EliminarCategoriaActionPerformed
-
     private void EliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarUsuarioActionPerformed
         if(fileManager.getUsuarios().length == 0){
             JOptionPane.showMessageDialog(this, "No hay usuarios", "Falta de usuarios", JOptionPane.ERROR_MESSAGE);
@@ -391,33 +356,26 @@ public class ModAdmin extends javax.swing.JFrame {
                         comboRecuperar.removeItemAt(x);
                         auxiliar++;
                     }
-		}
+				}
             }else{
                 JOptionPane.showMessageDialog(null, "Ya no hay usuarios para borrar", "Sin usuarios", JOptionPane.ERROR_MESSAGE);
             }
         }
         recargaCombo(false);
-		
     }//GEN-LAST:event_EliminarUsuarioActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-                guardarCambios();
+        guardarCambios();
         JOptionPane.showMessageDialog(this, "Cambios guardados", "Guardado exitoso", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void agregarCategoriasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_agregarCategoriasKeyTyped
-//
         char c = evt.getKeyChar();
         if ((Character.isAlphabetic(c))) {
         } else {
             evt.consume();
         }
-//        
     }//GEN-LAST:event_agregarCategoriasKeyTyped
-
-    private void agregarCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarCategoriasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_agregarCategoriasActionPerformed
 
     private void recargaCombo(boolean fromFile){
         Usuario [] us = null;
