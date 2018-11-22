@@ -314,7 +314,6 @@
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton10MouseClicked"/>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton10ActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.Box$Filler" name="filler1">
@@ -329,7 +328,6 @@
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField2">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField2ActionPerformed"/>
                 <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jTextField2KeyTyped"/>
               </Events>
             </Component>
@@ -337,9 +335,6 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="gramos"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gramosActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JToggleButton" name="kg">
               <Properties>

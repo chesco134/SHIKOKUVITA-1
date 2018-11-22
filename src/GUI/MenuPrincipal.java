@@ -218,17 +218,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 jButton10MouseClicked(evt);
             }
         });
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
-            }
-        });
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
         jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField2KeyTyped(evt);
@@ -236,11 +226,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
 
         gramos.setText("gramos");
-        gramos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gramosActionPerformed(evt);
-            }
-        });
 
         kg.setText("kilogramos");
 
@@ -406,11 +391,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
         ids.setVisible(true);
     }//GEN-LAST:event_jButton7MouseClicked
 
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-
-
-    }//GEN-LAST:event_jButton10ActionPerformed
-
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         String texto = jTextField2.getText();
         int posicion;
@@ -421,6 +401,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
         }
         if(texto.equals("")){
             JOptionPane.showMessageDialog(this, "No hay ningun valor seleccionado", "Falta de valor", JOptionPane.ERROR_MESSAGE);
+            Desecho des = new Desecho(nombreBotonsel,0,botonABooleano());
+            if(cantidades.contains(des)){
+                posicion = cantidades.indexOf(des);
+                cantidades.remove(posicion);
+            }else{
+                cantidades.add(des);
+            }
         }else{
             Desecho des = new Desecho(nombreBotonsel, Integer.parseInt(texto),botonABooleano());
             if(cantidades.contains(des)){
@@ -431,14 +418,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void gramosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gramosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_gramosActionPerformed
 
     private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
         char c = evt.getKeyChar();
