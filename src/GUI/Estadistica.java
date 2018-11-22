@@ -89,20 +89,21 @@ public class Estadistica extends javax.swing.JFrame{
 
 
 	private void getPeriodo(){
+		
 
+		String [] options = {"OK"};
 		Object [] per = {"Corto","Mediano","Largo"};
 		JComboBox jcd = new JComboBox(per);
+		JLabel jlb = new JLabel("Elige un plazo");
+		JPanel pamel = new JPanel();
+		pamel.add(jlb);
+		pamel.add(jcd);
 
-		Object input = JOptionPane.showInputDialog(null,"Elige un plazo", "Seleccione un plazo",
-        JOptionPane.QUESTION_MESSAGE, null, per,
-        per[0]);
+		int input = JOptionPane.showOptionDialog(null,pamel, "Seleccione un plazo",
+        JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,options,
+        options[0]);
 
-		if(input == null || (input != null && ("".equals(input)))){
-			this.dispose();
-			men.setVisible(true);
-		}else{
-			setPeriodo(input);
-		}
+		setPeriodo(jcd.getSelectedItem());
 	}
     
 	private void setPeriodo(Object str){
@@ -120,38 +121,41 @@ public class Estadistica extends javax.swing.JFrame{
     private void generardataset(int periodoTiempo){
         int cantidad = 0;
         int j = 0;
-        boolean primeravez = true;
+		//boolean primeravez = true;
 		if(periodoTiempo == 7){
 			for(int i = 0; i< periodoTiempo; i++){
         	    j++;
         	    for(Desecho d: des){
-        	        System.out.println(i);
-        	        if(!d.isTipoMasa()){
+        	        if(d.isTipoMasa()){
         	            cantidad = (d.getCantidad());
         	        }else{
         	            cantidad = d.getCantidad() * 1000;
         	        }
-        	        if(!primeravez){
-						
-						Random r = new Random();
-						int low = cantidad;
-						int high = cantidad + 100;
-						cantidad= r.nextInt(high-low) + low;
-        	        }
-        	        datasetgrafica.addValue(cantidad, d.getCategoria(), "dia: " + j);
-					primeravez = false;
+			//		if(!primeravez){
+			//		Random r = new Random();
+			//		int low = cantidad - 100;
+			//		int high = cantidad + 200;
+			//		cantidad = r.nextInt(high-low) + low;
+			//		}
+        	        datasetgrafica.addValue(cantidad * j / 1000, d.getCategoria(), "dia: " + j);
         	    }
+			//	primeravez = false;
         	}
 
+		}else if(periodoTiempo == 40){
+
+		
+		}else if(periodoTiempo == 365){
+			
 		}
 
     }
     
     private void mostrarGrafica(String periodoTiempo){
         grafica.setLayout(new BorderLayout());
-        JFreeChart panela = ChartFactory.createBarChart("Basura generada", periodoTiempo, "gramos", datasetgrafica);
+        JFreeChart panela = ChartFactory.createBarChart("Basura generada", periodoTiempo, "kilogramos", datasetgrafica);
         ChartPanel panel = new ChartPanel(panela);
-        panel.setSize(900, 500);
+        panel.setSize(600, 500);
         grafica.add(panel,0);
     }
 
@@ -260,6 +264,7 @@ public class Estadistica extends javax.swing.JFrame{
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
 		this.dispose();
 		men.setVisible(true);
+		
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
