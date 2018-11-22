@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.InputMap;
@@ -68,6 +69,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
         int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
         int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
         this.setBounds((ancho / 2) - (this.getWidth() / 2),  (alto / 2) - (this.getHeight() / 2),1054 , 612);
+			jTextField2.setDocument
+			(new JTextFieldLimit(9));
+
 
 				
         jPanel1.setToolTipText(null);
@@ -83,10 +87,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         Desecho des = new Desecho("",0,false);
         jTextArea1.setEditable(false);
 		jTextArea1.setWrapStyleWord(true);
-        //jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jTextArea1.setLineWrap(true);
-        //jTextArea1.setRows(5);
         jTextArea1.setText(la.LectorArchivoLinea(new File("src/Archivos/Introduccion/introduccion.txt")));
         jScrollPane1.add(jTextArea1);
         jScrollPane1.setViewportView(jTextArea1);
@@ -218,6 +220,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
         jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jTextField2KeyTyped(evt);
@@ -375,7 +382,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void jButton10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10MouseClicked
         Estadistica es = new Estadistica(fileManager, cantidades,this);
-        //this.dispose();
 		this.setVisible(false);
         es.setVisible(true);
     }//GEN-LAST:event_jButton10MouseClicked
@@ -393,32 +399,48 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         String texto = jTextField2.getText();
-        int posicion;
-        if(cantidades.size() == categoriesManager.getUsuarios().length - 1){
+        if(texto.equals("")){
+            JOptionPane.showMessageDialog(this, "No hay ningun valor seleccionado", "Falta de valor", JOptionPane.ERROR_MESSAGE);
+			
+			try {
+				rmContainsName(cantidades, nombreBotonsel);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+        }else{
+            Desecho des = new Desecho(nombreBotonsel, Integer.parseInt(texto),botonABooleano());
+            if(containsName(cantidades, nombreBotonsel)){
+				try {
+					rmContainsName(cantidades, nombreBotonsel);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+				cantidades.add(des);
+            }else{
+                cantidades.add(des);
+            }
+        }
+        if(cantidades.size() == categoriesManager.getUsuarios().length){
             jButton10.setVisible(true);
         }else{
             jButton10.setVisible(false);
         }
-        if(texto.equals("")){
-            JOptionPane.showMessageDialog(this, "No hay ningun valor seleccionado", "Falta de valor", JOptionPane.ERROR_MESSAGE);
-            Desecho des = new Desecho(nombreBotonsel,0,botonABooleano());
-            if(cantidades.contains(des)){
-                posicion = cantidades.indexOf(des);
-                cantidades.remove(posicion);
-            }else{
-                cantidades.add(des);
-            }
-        }else{
-            Desecho des = new Desecho(nombreBotonsel, Integer.parseInt(texto),botonABooleano());
-            if(cantidades.contains(des)){
-                posicion = cantidades.indexOf(des);
-                cantidades.set(posicion, des);
-            }else{
-                cantidades.add(des);
-            }
-        }
     }//GEN-LAST:event_jButton6ActionPerformed
 
+	public void rmContainsName(ArrayList<Desecho> list, String name) throws Exception{
+		list.stream().filter(o -> o.getCategoria().equals(name)).forEach(
+		            o -> {
+							int posicion = cantidades.indexOf(o);
+							System.out.println(o);
+                			cantidades.remove(o);
+		            }
+		    );
+	}
+
+	public boolean containsName(ArrayList<Desecho> list, String name){
+		return list.stream().anyMatch(o -> Objects.equals(o.getCategoria(), name));
+	}
+	
     private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
         char c = evt.getKeyChar();
         int tam = jTextField2.getText().length();
@@ -431,6 +453,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jTextField2KeyTyped
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
     
     private boolean botonABooleano(){
         if(gramos.isSelected()){
@@ -511,7 +537,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 gramos.setSelected(true);
                 setVisibleInicio();
                 nombreBotonsel = toggled.getActionCommand();
-                if(cantidades.contains(new Desecho(nombreBotonsel, 0, false))){
+                if(containsName(cantidades, nombreBotonsel)){
                     jTextField2.setText(Integer.toString(obtenerDesCategoria(nombreBotonsel).getCantidad()));
                     boolean prueba = obtenerDesCategoria(nombreBotonsel).isTipoMasa();
                     booleanoABoton(prueba).doClick();
@@ -519,6 +545,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                     jTextField2.setText("");
                 }
                 jLabel1.setText(nombreBotonsel);
+				System.out.println(cantidades.size());
             }
         }
     }
