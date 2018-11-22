@@ -6,9 +6,6 @@ import Usuarios.ManejadorArchivoUsuarios;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
-import java.util.function.Predicate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JPanel;
 import javax.swing.*;
@@ -26,38 +23,39 @@ import org.jfree.data.category.DefaultCategoryDataset;
 public class Estadistica extends javax.swing.JFrame{
 	
     private ManejadorArchivoUsuarios fileManager;
-	private MenuPrincipal men;
+    private MenuPrincipal men;
     private ArrayList<Desecho> des;
     private DefaultCategoryDataset datasetgrafica  = new DefaultCategoryDataset();
-	private int periodo = 0;
-	private String periodoTiempo;
-	private JFreeChart panela = null;
-	private ChartPanel panel = null;
-	private CategoryPlot cp = null;
+    private int periodo = 0;
+    private String periodoTiempo;
+    private JFreeChart panela = null;
+    private ChartPanel panel = null;
+    private CategoryPlot cp = null;
 
 
     public Estadistica(ManejadorArchivoUsuarios fileManager, ArrayList<Desecho> des,MenuPrincipal men){
         this.fileManager = fileManager;
         this.des = des;
-		this.men = men;
+        this.men = men;
         doMachin();
     }
     
     private void doMachin() {
-		getPeriodo();
-		configurarVentana();
-		llenarCombo();
-		jlbtxt();
-
+        initComponents();
+        getPeriodo();
+        configurarVentana();
+        llenarCombo();
+        jlbtxt();
         setVisible(true);
-		generardataset(periodo);
-		mostrarGrafica(periodoTiempo,formatdataset("Todos"));
+        generardataset(periodo);
+        mostrarGrafica(periodoTiempo,formatdataset("Todos"));
     }
-	private void jlbtxt(){
+    
+    private void jlbtxt(){
         int total = 0 ;
         for(Desecho d : des){
             total += d.getCantidad();
-        }
+    }
 
 		//faltan
         if(total >= 1400){
@@ -71,19 +69,19 @@ public class Estadistica extends javax.swing.JFrame{
 	}
 	private void configurarVentana(){
 
-        initComponents();
-        JPanel panel = new JPanel();
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 20)); // NOI18N
-        int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
-        int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
-        this.setBounds((ancho / 2) - (this.getWidth() / 2),  (alto / 2) - (this.getHeight() / 2),1080 , 720);
-        this.setSize(1080, 720);
-        grafica.setPreferredSize(new Dimension(100, 100));
-        grafica.setMaximumSize(new Dimension(100, 100));
-        grafica.setMinimumSize(new Dimension(100, 100));
-        this.setMaximumSize(new Dimension(1080, 720));
-        this.setPreferredSize(new Dimension(900, 720));
-        this.setMinimumSize(new Dimension(900, 720));
+            initComponents();
+            JPanel panel = new JPanel();
+            jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 20)); // NOI18N
+            int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
+            int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
+            this.setBounds((ancho / 2) - (this.getWidth() / 2),  (alto / 2) - (this.getHeight() / 2),1080 , 720);
+            this.setSize(1080, 720);
+            grafica.setPreferredSize(new Dimension(100, 100));
+            grafica.setMaximumSize(new Dimension(100, 100));
+            grafica.setMinimumSize(new Dimension(100, 100));
+            this.setMaximumSize(new Dimension(1080, 720));
+            this.setPreferredSize(new Dimension(900, 720));
+            this.setMinimumSize(new Dimension(900, 720));
 
         getContentPane().add(panel);
         getContentPane().setLayout(null);
@@ -219,12 +217,12 @@ public class Estadistica extends javax.swing.JFrame{
     private void mostrarGrafica(String periodoTiempo,DefaultCategoryDataset dcd){
         grafica.setLayout(new BorderLayout());
         panela = ChartFactory.createBarChart("Basura generada", periodoTiempo, "kilogramos", dcd);
-		try{
-		cp = (CategoryPlot) panel.getChart().getPlot();
-		}catch(NullPointerException ex){
-			ex.printStackTrace();
-		}
-		panel = new ChartPanel(panela);
+        try{
+            cp = (CategoryPlot) panel.getChart().getPlot();
+        }catch(NullPointerException ex){
+                ex.printStackTrace();
+        }
+        panel = new ChartPanel(panela);
         //panel.setSize(600, 500);
         grafica.add(panel,0);
     }
@@ -353,9 +351,8 @@ public class Estadistica extends javax.swing.JFrame{
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-		this.dispose();
-		men.setVisible(true);
-		
+        this.dispose();
+        men.setVisible(true);
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -368,8 +365,8 @@ public class Estadistica extends javax.swing.JFrame{
 		//mostrarGrafica(periodoTiempo,formatdataset(jComboBox1.getSelectedItem().toString()));
 		//actualizar(formatdataset(jComboBox1.getSelectedItem().toString()));
 		//char
-		System.out.println(jComboBox1.getSelectedItem());
-		actualizar(formatdataset(jComboBox1.getSelectedItem().toString()));
+        System.out.println(jComboBox1.getSelectedItem());
+        actualizar(formatdataset(jComboBox1.getSelectedItem().toString()));
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

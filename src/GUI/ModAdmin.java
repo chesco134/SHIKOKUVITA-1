@@ -34,12 +34,6 @@ public class ModAdmin extends javax.swing.JFrame {
 	
     public ModAdmin(ManejadorArchivoUsuarios fileManager, ManejoArchivoCategorias categoriesManager){
         this.fileManager = fileManager;
-        bkpFileManager = new ManejadorArchivoUsuarios();
-        bkpCategoriesManager = new ManejoArchivoCategorias();
-        for(Usuario usuario : fileManager.getUsuarios())
-            bkpFileManager.agregarusuario(usuario);
-        for(Categoria categoria : categoriesManager.getUsuarios())
-            bkpCategoriesManager.agregarCategoria(categoria);
         this.categoriesManager = categoriesManager;
         try{
             this.categoriesManager
@@ -49,10 +43,16 @@ public class ModAdmin extends javax.swing.JFrame {
             e.printStackTrace();
         }
         try {
-                fileManager.recuperarUsuarioActual(URLDecoder.decode(IniciarSesion.class.getResource("/shikokuvita/forbiddenmemories2").getFile(),"UTF-8"));
+                this.fileManager.recuperarUsuarioActual(URLDecoder.decode(IniciarSesion.class.getResource("/shikokuvita/forbiddenmemories2").getFile(),"UTF-8"));
         } catch (UnsupportedEncodingException ex) {
                 Logger.getLogger(ModAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
+        bkpFileManager = new ManejadorArchivoUsuarios();
+        bkpCategoriesManager = new ManejoArchivoCategorias();
+        for(Usuario usuario : fileManager.getUsuarios())
+            bkpFileManager.agregarusuario(usuario);
+        for(Categoria categoria : categoriesManager.getUsuarios())
+            bkpCategoriesManager.agregarCategoria(categoria);
         doMachin();
     }
 	private void doMachin() {
