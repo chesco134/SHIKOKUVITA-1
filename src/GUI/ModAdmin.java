@@ -17,6 +17,7 @@ import Categorias.*;
 import java.awt.Event;
 import java.awt.event.KeyEvent;
 import javax.swing.InputMap;
+import javax.swing.JFrame;
 import javax.swing.KeyStroke;
 
 /**
@@ -57,6 +58,9 @@ public class ModAdmin extends javax.swing.JFrame {
             int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
             this.setBounds((ancho / 2) - (this.getWidth() / 2),  (alto / 2) - (this.getHeight() / 2),976,296);
             jPanel1.setToolTipText(null);
+			
+			agregarCategorias.setDocument
+			(new JTextFieldLimit(15));
             recargaCombo(true);
             recargarCategoria();
 //
@@ -132,6 +136,11 @@ public class ModAdmin extends javax.swing.JFrame {
             }
         });
 
+        agregarCategorias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregarCategoriasActionPerformed(evt);
+            }
+        });
         agregarCategorias.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 agregarCategoriasKeyTyped(evt);
@@ -405,6 +414,10 @@ public class ModAdmin extends javax.swing.JFrame {
         }
 //        
     }//GEN-LAST:event_agregarCategoriasKeyTyped
+
+    private void agregarCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarCategoriasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_agregarCategoriasActionPerformed
 
     private void recargaCombo(boolean fromFile){
         Usuario [] us = null;
