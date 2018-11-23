@@ -14,7 +14,6 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.ui.RefineryUtilities;
 
 /**
  *
@@ -32,24 +31,25 @@ public class Estadistica extends javax.swing.JFrame{
     private JFreeChart panela = null;
     private ChartPanel panel = null;
     private CategoryPlot cp = null;
-
+    private java.util.List<MyFrame> panels;
 
     public Estadistica(ManejadorArchivoUsuarios fileManager, ArrayList<Desecho> des,MenuPrincipal men){
         this.fileManager = fileManager;
         this.des = des;
         this.men = men;
-        doMachin();
+        panels = new java.util.ArrayList<>();
         for(Desecho desecho : des){
-            MyFrame chart = new MyFrame(desecho, "Estadísticas de Desechos", 
-               desecho.getCategoria());
-            chart.pack();        
-            RefineryUtilities.centerFrameOnScreen( chart );        
-            chart.setVisible( true );
+            panels.add(new MyFrame(desecho, "Estadísticas de Desechos", 
+               desecho.getCategoria()));
+//            chart.pack();        
+//            RefineryUtilities.centerFrameOnScreen( chart );        
+//            chart.setVisible( true );
         }
-        MyFrame chart = new MyFrame(des.toArray(new Desecho[]{}), "Estadísticas de Desechos");
-        chart.pack();        
-        RefineryUtilities.centerFrameOnScreen( chart );        
-        chart.setVisible( true );
+        panels.add(new MyFrame(des.toArray(new Desecho[]{}), "Estadísticas de Desechos"));
+//        chart.pack();        
+//        RefineryUtilities.centerFrameOnScreen( chart );        
+//        chart.setVisible( true );
+        doMachin();
     }
     
     private void doMachin() {
@@ -225,14 +225,30 @@ public class Estadistica extends javax.swing.JFrame{
     private void mostrarGrafica(String periodoTiempo,DefaultCategoryDataset dcd){
         grafica.setLayout(new BorderLayout());
         panela = ChartFactory.createBarChart("Basura generada", periodoTiempo, "kilogramos", dcd);
+        panel = new ChartPanel(panela);
         try{
             cp = (CategoryPlot) panel.getChart().getPlot();
         }catch(NullPointerException ex){
                 ex.printStackTrace();
         }
-        panel = new ChartPanel(panela);
         //panel.setSize(600, 500);
         grafica.add(panel,0);
+        for(MyFrame currentPanel : panels)
+            grafica.add(currentPanel.getChartPanel());
+    }
+    
+    private void mostrarGrafica(ChartPanel panel){
+        grafica.setLayout(new BorderLayout());
+        try{
+            cp = (CategoryPlot) panel.getChart().getPlot();
+        }catch(NullPointerException ex){
+                ex.printStackTrace();
+        }
+        //panel.setSize(600, 500);
+        grafica.removeAll();
+        grafica.add(panel,0);
+        revalidate();
+        repaint();
     }
 //			private void actualizar(DefaultCategoryDataset dcs){
 //		
@@ -291,18 +307,6 @@ public class Estadistica extends javax.swing.JFrame{
         grafica.setForeground(new java.awt.Color(255, 255, 255));
         grafica.setMinimumSize(new java.awt.Dimension(400, 400));
         grafica.setPreferredSize(new java.awt.Dimension(400, 400));
-
-        javax.swing.GroupLayout graficaLayout = new javax.swing.GroupLayout(grafica);
-        grafica.setLayout(graficaLayout);
-        graficaLayout.setHorizontalGroup(
-            graficaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 914, Short.MAX_VALUE)
-        );
-        graficaLayout.setVerticalGroup(
-            graficaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-
         jScrollPane1.setViewportView(grafica);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -364,7 +368,11 @@ public class Estadistica extends javax.swing.JFrame{
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
+        String cat = (String)jComboBox1.getSelectedItem();
+        for(MyFrame d : panels){
+            if(d.getCategoria().equals(cat))
+                mostrarGrafica(d.getChartPanel());
+        }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

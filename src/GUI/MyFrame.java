@@ -18,23 +18,33 @@ import org.jfree.data.category.DefaultCategoryDataset;
  *
  * @author Juan Capiz
  */
-public class MyFrame  extends ApplicationFrame {
+public class MyFrame extends ApplicationFrame {
     
     private Desecho desecho;
     private Desecho[] desechos;
+    private ChartPanel chartPanel;
+    private String categoria;
+    
+    public String getCategoria(){
+        return categoria;
+    }
    
    public MyFrame(Desecho desecho, String applicationTitle , String chartTitle ) {
       super( applicationTitle );        
       this.desecho = desecho;
-       init(chartTitle);
+      this.categoria = desecho.getCategoria();
+      init(chartTitle);
    }
    
    public MyFrame(Desecho[] desechos, String applicationTitle) {
       super( applicationTitle );
       this.desechos = desechos;
       desecho = null;
+      categoria = "Todos";
       init();
    }
+   
+   public ChartPanel getChartPanel(){ return chartPanel; }
    
    private void init(String chartTitle){
       JFreeChart barChart = ChartFactory.createBarChart(
@@ -44,8 +54,8 @@ public class MyFrame  extends ApplicationFrame {
          createDataset(),          
          PlotOrientation.VERTICAL,           
          true, true, false);
-      ChartPanel chartPanel = new ChartPanel( barChart );        
-      chartPanel.setPreferredSize(new java.awt.Dimension( 560 , 367 ) );        
+      chartPanel = new ChartPanel( barChart );        
+      chartPanel.setPreferredSize(new java.awt.Dimension( 360 , 147 ) );        
       setContentPane( chartPanel ); 
    }
    
@@ -58,8 +68,8 @@ public class MyFrame  extends ApplicationFrame {
          createDataset(),          
          PlotOrientation.VERTICAL,           
          true, true, false);
-      ChartPanel chartPanel = new ChartPanel( barChart );        
-      chartPanel.setPreferredSize(new java.awt.Dimension( 560 , 367 ) );        
+      chartPanel = new ChartPanel( barChart );        
+      chartPanel.setPreferredSize(new java.awt.Dimension( 360 , 167 ) );        
       setContentPane( chartPanel ); 
    }
    
@@ -91,7 +101,7 @@ public class MyFrame  extends ApplicationFrame {
 //      dataset.addValue( 3.0 , ford , millage );        
 //      dataset.addValue( 6.0 , ford , safety );               
         if(desecho != null){
-            dataset.addValue(desecho.getCantidad(), desecho.getCategoria(), "Día");
+            dataset.addValue(desecho.getCantidad(), desecho.getCategoria(), "");
         }else{
             for(Desecho desecho : desechos){
                 dataset.addValue(desecho.getCantidad(), "Desecho", desecho.getCategoria());
