@@ -126,10 +126,10 @@ public class Estadistica extends javax.swing.JFrame{
 			periodo = 7;
 			periodoTiempo = "Plazo Corto";
 		}else if(str.equals("Mediano")){
-			periodo = 49;
+			periodo = 4;
 			periodoTiempo = "Plazo Mediano";
 		}else if(str.equals("Largo")){
-			periodo = 365;
+			periodo = 12;
 			periodoTiempo = "Plazo Largo";
 		}
 	}

@@ -131,7 +131,7 @@ public class MyFrame extends ApplicationFrame {
         if(desecho != null){
             if( dias != null ){
                     for(int i = 0; i<dias; i++)
-                        dataset.addValue(desecho.getCantidad() * (i+1), "Día " + (i+1), desecho.getCategoria());
+                        dataset.addValue(desecho.getCantidad() * (i+1)*(dias == 12 ? 30 : dias == 4 ? 7 : 1), (dias == 12 ? "Mes: " : dias == 4 ? "Semana: " : "Día: ") + (i+1), desecho.getCategoria());
                 }else
                     dataset.addValue(desecho.getCantidad(), desecho.getCategoria(), "");
         }else{
