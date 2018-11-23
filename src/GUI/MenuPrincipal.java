@@ -414,7 +414,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 				ex.printStackTrace();
 			}
         }else{
-            Desecho des = new Desecho(nombreBotonsel, Integer.parseInt(texto),botonABooleano());
+            Desecho des = new Desecho(nombreBotonsel, Integer.parseInt(texto) * (!botonABooleano() ? 1000 : 1),botonABooleano());
             if(containsName(cantidades, nombreBotonsel)){
 				try {
 					rmContainsName(cantidades, nombreBotonsel);

@@ -250,6 +250,14 @@ public class Estadistica extends javax.swing.JFrame{
         revalidate();
         repaint();
     }
+    
+    private void mostrarGrafica(MyFrame panel){
+        grafica.setLayout(new BorderLayout());
+        grafica.removeAll();
+        grafica.add(new MyFrame(panel,periodo).getChartPanel(),0);
+        revalidate();
+        repaint();
+    }
 //			private void actualizar(DefaultCategoryDataset dcs){
 //		
 //				grafica().getPlot.setDataset(dcs);
@@ -371,7 +379,7 @@ public class Estadistica extends javax.swing.JFrame{
         String cat = (String)jComboBox1.getSelectedItem();
         for(MyFrame d : panels){
             if(d.getCategoria().equals(cat))
-                mostrarGrafica(d.getChartPanel());
+                mostrarGrafica(d);
         }
     }//GEN-LAST:event_jComboBox1ActionPerformed
 

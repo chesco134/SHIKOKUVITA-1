@@ -24,13 +24,40 @@ public class MyFrame extends ApplicationFrame {
     private Desecho[] desechos;
     private ChartPanel chartPanel;
     private String categoria;
+    private String appTitle;
+    Integer dias = null;
+    Boolean isKilos = null;
+    
+    public boolean isKilos(){
+        return isKilos != null ? isKilos : false;
+    }
+    
+    public String getAppTitle(){ return appTitle; }
     
     public String getCategoria(){
         return categoria;
     }
+    
+    public Desecho[] getDesechos(){ return desechos; }
+    
+    public Desecho getDesecho(){ return desecho; }
    
+    public MyFrame(MyFrame baseFrame, int dias){
+        super(baseFrame.getAppTitle());
+        this.appTitle = baseFrame.getAppTitle();
+        this.dias = dias;
+        this.desecho = baseFrame.getDesecho();
+        this.desechos = baseFrame.getDesechos();
+        this.categoria = baseFrame.getCategoria();
+        if("Todos".equals(appTitle))
+            init(getAppTitle());
+        else
+            init();
+    }
+    
    public MyFrame(Desecho desecho, String applicationTitle , String chartTitle ) {
-      super( applicationTitle );        
+      super( applicationTitle );     
+      this.appTitle = applicationTitle;
       this.desecho = desecho;
       this.categoria = desecho.getCategoria();
       init(chartTitle);
@@ -38,6 +65,7 @@ public class MyFrame extends ApplicationFrame {
    
    public MyFrame(Desecho[] desechos, String applicationTitle) {
       super( applicationTitle );
+      this.appTitle = applicationTitle;
       this.desechos = desechos;
       desecho = null;
       categoria = "Todos";
@@ -101,10 +129,14 @@ public class MyFrame extends ApplicationFrame {
 //      dataset.addValue( 3.0 , ford , millage );        
 //      dataset.addValue( 6.0 , ford , safety );               
         if(desecho != null){
-            dataset.addValue(desecho.getCantidad(), desecho.getCategoria(), "");
+            if( dias != null ){
+                    for(int i = 0; i<dias; i++)
+                        dataset.addValue(desecho.getCantidad() * (i+1), "Día " + (i+1), desecho.getCategoria());
+                }else
+                    dataset.addValue(desecho.getCantidad(), desecho.getCategoria(), "");
         }else{
             for(Desecho desecho : desechos){
-                dataset.addValue(desecho.getCantidad(), "Desecho", desecho.getCategoria());
+                    dataset.addValue(desecho.getCantidad(), "Desecho", desecho.getCategoria());
             }
         }
       return dataset; 
