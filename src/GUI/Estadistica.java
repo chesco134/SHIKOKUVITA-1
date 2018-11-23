@@ -40,8 +40,8 @@ public class Estadistica extends javax.swing.JFrame{
         this.men = men;
         doMachin();
         for(Desecho desecho : des){
-            MyFrame chart = new MyFrame(desecho, "Car Usage Statistics", 
-               "Which car do you like?");
+            MyFrame chart = new MyFrame(desecho, "Estadísticas de Desechos", 
+               desecho.getCategoria());
             chart.pack();        
             RefineryUtilities.centerFrameOnScreen( chart );        
             chart.setVisible( true );
@@ -50,12 +50,12 @@ public class Estadistica extends javax.swing.JFrame{
     
     private void doMachin() {
         initComponents();
-//        getPeriodo();
-//        configurarVentana();
-//        llenarCombo();
-//        jlbtxt();
-//        generardataset(periodo);
-//        mostrarGrafica(periodoTiempo,formatdataset("Todos"));
+        getPeriodo();
+        configurarVentana();
+        llenarCombo();
+        jlbtxt();
+        generardataset(periodo);
+        mostrarGrafica(periodoTiempo,formatdataset("Todos"));
         setVisible(true);
     }
     
