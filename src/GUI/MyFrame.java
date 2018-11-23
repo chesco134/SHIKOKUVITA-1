@@ -21,13 +21,39 @@ import org.jfree.data.category.DefaultCategoryDataset;
 public class MyFrame  extends ApplicationFrame {
     
     private Desecho desecho;
+    private Desecho[] desechos;
    
    public MyFrame(Desecho desecho, String applicationTitle , String chartTitle ) {
       super( applicationTitle );        
       this.desecho = desecho;
+       init(chartTitle);
+   }
+   
+   public MyFrame(Desecho[] desechos, String applicationTitle) {
+      super( applicationTitle );
+      this.desechos = desechos;
+      desecho = null;
+      init();
+   }
+   
+   private void init(String chartTitle){
       JFreeChart barChart = ChartFactory.createBarChart(
          chartTitle,           
-         "Category",            
+         "",            
+         "Score",            
+         createDataset(),          
+         PlotOrientation.VERTICAL,           
+         true, true, false);
+      ChartPanel chartPanel = new ChartPanel( barChart );        
+      chartPanel.setPreferredSize(new java.awt.Dimension( 560 , 367 ) );        
+      setContentPane( chartPanel ); 
+   }
+   
+   private void init(){
+       
+      JFreeChart barChart = ChartFactory.createBarChart(
+         "Todos los desechos",           
+         "Desecho",            
          "Score",            
          createDataset(),          
          PlotOrientation.VERTICAL,           
@@ -64,8 +90,13 @@ public class MyFrame  extends ApplicationFrame {
 //      dataset.addValue( 2.0 , ford , userrating );        
 //      dataset.addValue( 3.0 , ford , millage );        
 //      dataset.addValue( 6.0 , ford , safety );               
-
-      dataset.addValue(desecho.getCantidad(), desecho.getCategoria(), "Lunes");
+        if(desecho != null){
+            dataset.addValue(desecho.getCantidad(), desecho.getCategoria(), "Día");
+        }else{
+            for(Desecho desecho : desechos){
+                dataset.addValue(desecho.getCantidad(), "Desecho", desecho.getCategoria());
+            }
+        }
       return dataset; 
    }
 }

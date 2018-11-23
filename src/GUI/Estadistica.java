@@ -46,6 +46,10 @@ public class Estadistica extends javax.swing.JFrame{
             RefineryUtilities.centerFrameOnScreen( chart );        
             chart.setVisible( true );
         }
+        MyFrame chart = new MyFrame(des.toArray(new Desecho[]{}), "Estadísticas de Desechos");
+        chart.pack();        
+        RefineryUtilities.centerFrameOnScreen( chart );        
+        chart.setVisible( true );
     }
     
     private void doMachin() {
