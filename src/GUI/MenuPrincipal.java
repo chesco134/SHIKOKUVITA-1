@@ -386,9 +386,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_formComponentResized
 
     private void jButton10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10MouseClicked
-		this.setVisible(false);
-        Estadistica es = new Estadistica(fileManager, cantidades,this);
-		this.setVisible(false);
+        this.setVisible(false);
+        Estadistica es = new Estadistica(fileManager, cantidades, this);
+        this.setVisible(false);
         es.setVisible(true);
     }//GEN-LAST:event_jButton10MouseClicked
 

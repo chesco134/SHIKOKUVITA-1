@@ -14,6 +14,7 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.ui.RefineryUtilities;
 
 /**
  *
@@ -38,25 +39,31 @@ public class Estadistica extends javax.swing.JFrame{
         this.des = des;
         this.men = men;
         doMachin();
+        for(Desecho desecho : des){
+            MyFrame chart = new MyFrame(desecho, "Car Usage Statistics", 
+               "Which car do you like?");
+            chart.pack();        
+            RefineryUtilities.centerFrameOnScreen( chart );        
+            chart.setVisible( true );
+        }
     }
     
     private void doMachin() {
         initComponents();
-        getPeriodo();
-        configurarVentana();
-        llenarCombo();
-        jlbtxt();
+//        getPeriodo();
+//        configurarVentana();
+//        llenarCombo();
+//        jlbtxt();
+//        generardataset(periodo);
+//        mostrarGrafica(periodoTiempo,formatdataset("Todos"));
         setVisible(true);
-        generardataset(periodo);
-        mostrarGrafica(periodoTiempo,formatdataset("Todos"));
     }
     
     private void jlbtxt(){
         int total = 0 ;
         for(Desecho d : des){
             total += d.getCantidad();
-    }
-
+        }
 		//faltan
         if(total >= 1400){
                 jLabel1.setText("generas demasiada basura al dia (" + total + ") g");
@@ -67,37 +74,34 @@ public class Estadistica extends javax.swing.JFrame{
         }
 		
 	}
-	private void configurarVentana(){
-
-            initComponents();
-            JPanel panel = new JPanel();
-            jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 20)); // NOI18N
-            int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
-            int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
-            this.setBounds((ancho / 2) - (this.getWidth() / 2),  (alto / 2) - (this.getHeight() / 2),1080 , 720);
-            this.setSize(1080, 720);
-            grafica.setPreferredSize(new Dimension(100, 100));
-            grafica.setMaximumSize(new Dimension(100, 100));
-            grafica.setMinimumSize(new Dimension(100, 100));
-            this.setMaximumSize(new Dimension(1080, 720));
-            this.setPreferredSize(new Dimension(900, 720));
-            this.setMinimumSize(new Dimension(900, 720));
-
+    private void configurarVentana(){
+        JPanel panel = new JPanel();
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 20)); // NOI18N
+        int ancho = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
+        int alto = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
+        this.setBounds((ancho / 2) - (this.getWidth() / 2),  (alto / 2) - (this.getHeight() / 2),1080 , 720);
+        this.setSize(1080, 720);
+        grafica.setPreferredSize(new Dimension(100, 100));
+        grafica.setMaximumSize(new Dimension(100, 100));
+        grafica.setMinimumSize(new Dimension(100, 100));
+        this.setMaximumSize(new Dimension(1080, 720));
+        this.setPreferredSize(new Dimension(900, 720));
+        this.setMinimumSize(new Dimension(900, 720));
         getContentPane().add(panel);
         getContentPane().setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-	}
-	private void llenarCombo(){
-		jComboBox1.addItem("Todos");
-		jComboBox1.setSelectedIndex(0);
-		for(Desecho d:des){
-			jComboBox1.addItem(d.getCategoria());
-			//jComboBox1.setActionCommand(d.getCategoria());
-		}
-	}
+    }
+    
+    private void llenarCombo(){
+            jComboBox1.addItem("Todos");
+            jComboBox1.setSelectedIndex(0);
+            for(Desecho d:des){
+                    jComboBox1.addItem(d.getCategoria());
+                    //jComboBox1.setActionCommand(d.getCategoria());
+            }
+    }
 
 	private void getPeriodo(){
-
 		String [] options = {"OK"};
 		Object [] per = {"Corto","Mediano","Largo"};
 		JComboBox jcd = new JComboBox(per);

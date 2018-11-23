@@ -10,6 +10,7 @@ import org.json.JSONObject;
  */
 public class SerializarCategoria {
     public static String serializaCategorias(Categoria cat){
+        System.out.println("Serializing categoria.");
 		try{
 			JSONObject json = new JSONObject();
 			json.put("nombre_Categoria", cat.getNombreCategoria());
@@ -26,7 +27,7 @@ public class SerializarCategoria {
 			Categoria cat = new Categoria();
 			JSONObject json = new JSONObject(jsonString);
 			cat.setNombreCategoria(json.getString("nombre_Categoria"));
-                        cat.setDescCategoria(json.getString("descripcion_categoria"));
+                        try{ cat.setDescCategoria(json.getString("descripcion_categoria")); } catch(Exception ignore){}
 			return cat;
 		}catch(JSONException e){
 //			e.printStackTrace();
